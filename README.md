@@ -7,6 +7,9 @@ LinCor platformasining backend qismini ishga tushirish uchun quyidagi qadamlarni
    ```bash
    npm i
 
+```gherkin 
+Salom
+
 2. Prisma modelini bazaga qo'llash uchun quyidagi buyruqni bajaring:
 
     ```bash
