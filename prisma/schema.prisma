@@ -19,6 +19,7 @@ model User {
 
 model Profile {
   id                Int               @id @default(autoincrement())
+  addresa           String
   ava_path          String?
   registered_at     DateTime
   isActive          Boolean           @default(false)

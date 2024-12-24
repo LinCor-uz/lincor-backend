@@ -4,39 +4,40 @@
     "module": "commonjs",
     "rootDir": "./src",
     "outDir": "./dist",
-    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@config": [
+        "./src/config"
+      ],
+      "@middlewares": [
+        "./src/middlewares"
+      ],
+      "@controllers": [
+        "./src/controllers"
+      ],
+      "@errors": [
+        "./src/errors"
+      ],
+      "@interfaces": [
+        "./src/interfaces"
+      ],
+      "@models": [
+        "./src/models"
+      ],
+      "@utils": [
+        "./src/utils"
+      ]
+    },
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "node_modules"
-  ],
-  "baseUrl": "src",
-  "paths": {
-    "@controllers/*": [
-      "controllers/*"
-    ],
-    "@models/*": [
-      "models/*"
-    ],
-    "@utils/*": [
-      "utils/*"
-    ],
-    "@routes/*": [
-      "routes/*"
-    ],
-    "@services/*": [
-      "services/*"
-    ],
-    "@middlewares/*": [
-      "middlewares/*"
-    ],
-    "@config/*": [
-      "config/*"
-    ]
-  }
+    "node_modules",
+    "dist"
+  ]
 }

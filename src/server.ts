@@ -1,8 +1,9 @@
-import express from "express";
-import {getEnvVariable} from "./utils/dotenv";
+import express from "express"
+import {getEnvVariable} from "@utils";
+
 
 const app = express();
-const PORT = getEnvVariable("SERVER_PORT") || 8000;
+const PORT = getEnvVariable("SERVER_PORT") ?? 8000;
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
