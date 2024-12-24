@@ -7,21 +7,20 @@ LinCor platformasining backend qismini ishga tushirish uchun quyidagi qadamlarni
    ```bash
    npm i
 
-```gherkin 
-Salom
+2. **_.env faylarni sozlab olish esdan chiqmasin_**
 
-2. Prisma modelini bazaga qo'llash uchun quyidagi buyruqni bajaring:
+3. Prisma modelini bazaga qo'llash uchun quyidagi buyruqni bajaring:
 
     ```bash
    npm run prisma-migrate
 
-3. Serverni nodemon bilan ishga tushirish uchun quyidagi buyruqni bajarish kerak. Nodemon avtomatik ravishda serverni
+4. Serverni nodemon bilan ishga tushirish uchun quyidagi buyruqni bajarish kerak. Nodemon avtomatik ravishda serverni
    yangilaydi:
 
     ```bash 
    npm run dev
 
-4. Agar serverni bir martalik ishga tushirishni xohlasangiz, quyidagi buyruqni bajarishingiz mumkin
+5. Agar serverni bir martalik ishga tushirishni xohlasangiz, quyidagi buyruqni bajarishingiz mumkin
 
     ```bash
    npm start
