@@ -1,14 +1,42 @@
 {
   "compilerOptions": {
-    "target": "es2016",                     // JavaScript-ning versiyasi
-    "module": "commonjs",                  // Modul tizimi (Node.js uchun 'commonjs')
-    "rootDir": "./src",                    // TypeScript fayllarining manba katalogi
-    "outDir": "./dist",                    // JavaScript fayllarini qayerga chiqishini belgilash
-    "strict": true,                        // Katta xatoliklarni tekshirishni yoqish
-    "esModuleInterop": true,               // CommonJS va ES modullarni mos qilish
-    "skipLibCheck": true,                  // Kutubxonalar uchun tekshiruvni o'tkazib yuborish
-    "forceConsistentCasingInFileNames": true // Fayl nomlari uchun bir xil registr talab qilish
+    "target": "es2016",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*"],                 // Qaysi fayllar TypeScript tomonidan kompilyatsiya qilinadi
-  "exclude": ["node_modules"]              // Qaysi fayllar bundan mustasno
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "baseUrl": "src",
+  "paths": {
+    "@controllers/*": [
+      "controllers/*"
+    ],
+    "@models/*": [
+      "models/*"
+    ],
+    "@utils/*": [
+      "utils/*"
+    ],
+    "@routes/*": [
+      "routes/*"
+    ],
+    "@services/*": [
+      "services/*"
+    ],
+    "@middlewares/*": [
+      "middlewares/*"
+    ],
+    "@config/*": [
+      "config/*"
+    ]
+  }
 }

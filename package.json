@@ -20,9 +20,11 @@
   },
   "homepage": "https://github.com/LinCor-uz/lincor-backend#readme",
   "dependencies": {
+    "@prisma/client": "^6.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.1.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {
