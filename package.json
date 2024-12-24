@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "prisma-migrate": "npx prisma migrate dev --name prisma && npx prisma generate"
   },
   "repository": {
     "type": "git",

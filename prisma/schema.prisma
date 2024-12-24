@@ -6,3 +6,52 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int     @id @unique @default(autoincrement())
+  firstname String
+  lastname  String
+  phone     BigInt  @unique
+  password  String
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int     @unique
+}
+
+model Profile {
+  id                Int               @id @default(autoincrement())
+  ava_path          String?
+  registered_at     DateTime
+  isActive          Boolean           @default(false)
+  user              User?
+  profileCategories ProfileCategory[]
+}
+
+model Category {
+  id                Int               @id @default(autoincrement())
+  category_name     String
+  category_desc     String
+  workbook_path     String?
+  price             Int
+  videos            Video[]
+  profileCategories ProfileCategory[]
+}
+
+model ProfileCategory {
+  id         Int      @id @default(autoincrement())
+  profileId  Int
+  categoryId Int
+  profile    Profile  @relation(fields: [profileId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([profileId, categoryId])
+}
+
+model Video {
+  id             Int       @id @default(autoincrement())
+  title          String
+  description    String
+  reviewImg_path String?
+  video_path     String
+  Category       Category? @relation(fields: [categoryId], references: [id])
+  categoryId     Int?
+}
