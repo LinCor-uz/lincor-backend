@@ -1,6 +1,8 @@
 import {Request, Response} from "express";
 import {categoryService} from "@services";
 import {categorySchema} from "@validations";
+import {prisma} from "@config";
+import {sendError} from "@utils";
 
 
 export const categoryController = {
@@ -13,9 +15,9 @@ export const categoryController = {
             const category = await categoryService.findCategoryById(id)
             res.status(200).send(category)
         } catch (error: unknown) {
-            const err = error as Error
+            const err = error as sendError
             console.log("#ERROR getCategoryById - ", err)
-            res.status(500).send({success: false, error: err.message})
+            res.status(err.statusCode || 500).send({success: false, error: err.message})
         }
 
     },
@@ -34,16 +36,49 @@ export const categoryController = {
 
     // create category
     createCategory: async (req: Request, res: Response) => {
-        const result = await categoryService.createCategoryService(req.body)
+        try {
+            const result = await categoryService.createCategoryService(req.body)
 
-        if (!result) {
-            throw new Error("Category not created")
+            res.status(200).send({
+                success: true,
+                result: result
+            })
+
+        } catch (error: unknown) {
+            const err = error as sendError
+            console.log("#ERROR createCategory - ", err)
+            res.status(err.statusCode || 500).send({success: false, error: err.message})
         }
 
-        res.status(200).send({
-            success: true,
-            result: result
-        })
+
+    },
+
+    updateCategory: async (req: Request, res: Response) => {
+        try {
+            const id = parseInt(req.params.id)
+
+            const result = await categoryService.updateCategoryService(id, req.body)
+            res.status(200).send({success: true, result: result})
+        } catch (error: unknown) {
+            const err = error as sendError
+            console.log("#ERROR updateCategory - ", err)
+            res.status(err.statusCode || 500).send({success: false, error: err.message})
+        }
+    },
+
+    deleteCategory: async (req: Request, res: Response) => {
+        try {
+            const id = parseInt(req.params.id)
+            await categoryService.deleteCategoryService(id)
+
+            res.status(200).send({success: true, message: 'Category deleted successfully'})
+        } catch (error: unknown) {
+            const err = error as sendError
+            console.log("#ERROR deleteCategory - ", err)
+            res.status(err.statusCode || 500).send({success: false, error: err.message})
+        }
     }
+
+
 }
 
