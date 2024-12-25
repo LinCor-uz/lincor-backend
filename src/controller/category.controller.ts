@@ -8,11 +8,11 @@ import {sendError} from "@utils";
 export const categoryController = {
 
     // get category by category ID
-    getCategorById: async (req: Request, res: Response) => {
+    getCategorById: (req: Request, res: Response) => {
         const id = parseInt(req.params.id)
         console.log(id)
         try {
-            const category = await categoryService.findCategoryById(id)
+            const category = categoryService.findCategoryById(id)
             res.status(200).send(category)
         } catch (error: unknown) {
             const err = error as sendError
@@ -23,9 +23,9 @@ export const categoryController = {
     },
 
     // get all categories
-    getAllCategories: async (req: Request, res: Response) => {
+    getAllCategories: (req: Request, res: Response) => {
         try {
-            const data = await categoryService.getAllCategories()
+            const data = categoryService.getAllCategories()
             res.status(200).send(data)
         } catch (error: unknown) {
             const err = error as Error
@@ -35,9 +35,9 @@ export const categoryController = {
     },
 
     // create category
-    createCategory: async (req: Request, res: Response) => {
+    createCategory: (req: Request, res: Response) => {
         try {
-            const result = await categoryService.createCategoryService(req.body)
+            const result = categoryService.createCategoryService(req.body)
 
             res.status(200).send({
                 success: true,
@@ -53,11 +53,11 @@ export const categoryController = {
 
     },
 
-    updateCategory: async (req: Request, res: Response) => {
+    updateCategory: (req: Request, res: Response) => {
         try {
             const id = parseInt(req.params.id)
 
-            const result = await categoryService.updateCategoryService(id, req.body)
+            const result = categoryService.updateCategoryService(id, req.body)
             res.status(200).send({success: true, result: result})
         } catch (error: unknown) {
             const err = error as sendError
@@ -66,10 +66,10 @@ export const categoryController = {
         }
     },
 
-    deleteCategory: async (req: Request, res: Response) => {
+    deleteCategory: (req: Request, res: Response) => {
         try {
             const id = parseInt(req.params.id)
-            await categoryService.deleteCategoryService(id)
+            categoryService.deleteCategoryService(id)
 
             res.status(200).send({success: true, message: 'Category deleted successfully'})
         } catch (error: unknown) {
