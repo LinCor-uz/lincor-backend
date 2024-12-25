@@ -27,8 +27,11 @@
       "@utils": [
         "./src/utils"
       ],
-      "@zod": [
+      "@validations": [
         "./src/validations"
+      ],
+      "@services": [
+        "./src/services"
       ]
     },
     "esModuleInterop": true,
