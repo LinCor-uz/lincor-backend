@@ -13,7 +13,7 @@
         "./src/middlewares"
       ],
       "@controllers": [
-        "./src/controllers"
+        "./src/controller"
       ],
       "@errors": [
         "./src/errors"
@@ -32,6 +32,9 @@
       ],
       "@services": [
         "./src/services"
+      ],
+      "@router": [
+        "./src/routes"
       ]
     },
     "esModuleInterop": true,
