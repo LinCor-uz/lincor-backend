@@ -66,10 +66,10 @@ export const categoryController = {
         }
     },
 
-    deleteCategory: (req: Request, res: Response) => {
+    deleteCategory: async (req: Request, res: Response) => {
         try {
             const id = parseInt(req.params.id)
-            categoryService.deleteCategoryService(id)
+            await categoryService.deleteCategoryService(id)
 
             res.status(200).send({success: true, message: 'Category deleted successfully'})
         } catch (error: unknown) {
