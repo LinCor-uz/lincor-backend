@@ -1,5 +1,5 @@
 import {prisma} from "@config";
-import {Category} from "@validations";
+import {Category, categorySchema, ICategorySchema} from "@validations";
 
 export const categoryService = {
     async getAllCategories(): Promise<Category[]> {
@@ -14,5 +14,17 @@ export const categoryService = {
         }
 
         return category
+    },
+
+    async createCategoryService(data: unknown): Promise<Category> {
+        // Validation
+        const validatedData = categorySchema.parse(data);
+
+        // Prisma orqali saqlash va natijani qaytarish
+        return prisma.category.create({
+            data: validatedData,
+        });
     }
+
+
 }

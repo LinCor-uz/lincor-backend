@@ -1,5 +1,6 @@
 import {Request, Response} from "express";
 import {categoryService} from "@services";
+import {categorySchema} from "@validations";
 
 
 export const categoryController = {
@@ -29,6 +30,20 @@ export const categoryController = {
             console.log("#ERROR getAllCategory - ", err)
             res.status(500).send({success: false, error: err.message})
         }
+    },
+
+    // create category
+    createCategory: async (req: Request, res: Response) => {
+        const result = await categoryService.createCategoryService(req.body)
+
+        if (!result) {
+            throw new Error("Category not created")
+        }
+
+        res.status(200).send({
+            success: true,
+            result: result
+        })
     }
 }
 

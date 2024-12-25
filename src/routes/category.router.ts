@@ -6,3 +6,4 @@ export const router = Router()
 router
     .get("/categories", categoryController.getAllCategories)
     .get("/category/:id", categoryController.getCategorById)
+    .post("/category", categoryController.createCategory)
