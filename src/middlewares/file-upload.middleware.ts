@@ -3,7 +3,7 @@ import * as path from "node:path";
 import * as process from "node:process";
 import * as fs from "node:fs";
 
-const fileDir = path.join(__dirname, "..", "uploads", "workbook");
+const fileDir = path.join(process.cwd(), "uploads", "workbook"); // path = LinCor.uz/uploads/workbook
 
 if (!fs.existsSync(fileDir)) {
     fs.mkdirSync(fileDir, {recursive: true});
