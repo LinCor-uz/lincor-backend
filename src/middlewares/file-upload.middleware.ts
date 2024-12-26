@@ -20,6 +20,6 @@ const storege = multer.diskStorage({
     }
 })
 
-export const upload = multer({
+export const uploadWokrbook = multer({
     storage: storege
 })
