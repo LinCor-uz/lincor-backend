@@ -1,5 +1,5 @@
 import {prisma} from "@config";
-import {Category, categorySchema, ICategorySchema} from "@validations";
+import {Category, categorySchema} from "@validations";
 import {sendError} from "@utils";
 import {ZodError} from "zod";
 
@@ -20,9 +20,10 @@ export const categoryService = {
 
     async createCategoryService(data: unknown): Promise<Category> {
         // kelgan datani validatsiya qilish
+        console.log("DATA", data)
         try {
             const validatedData = categorySchema.parse(data);
-
+            console.log("VALIDATE DATA", validatedData)
             // Prisma orqali saqlash va natijani qaytarish
             return prisma.category.create({
                 data: validatedData,
@@ -49,7 +50,7 @@ export const categoryService = {
 
         try {
             // kelgan datani validatsiya qilish
-            const validatedData = categoryUpdateSchema.safeParse(data);
+            const validatedData = categoryUpdateSchema.parse(data);
             return prisma.category.update({where: {id}, data: validatedData})
 
         } catch (error) {
@@ -71,8 +72,7 @@ export const categoryService = {
             throw new sendError("Category not found", 404)
         } else {
             await prisma.category.delete({where: {id}})
+
         }
     }
-
-
 }
