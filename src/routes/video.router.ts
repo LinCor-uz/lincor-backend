@@ -9,3 +9,4 @@ videoRouter
     .post("/", uploadVideo.single("video"), videoController.createVideo)
     .delete("/:id", isValidId, videoController.deleteVideo)
     .get("/", videoController.findAllVideos)
+    .put("/:id", isValidId, uploadVideo.single("video"), videoController.updateVideo)
