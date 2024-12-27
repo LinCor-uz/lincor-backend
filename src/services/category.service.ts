@@ -25,7 +25,7 @@ export const categoryService = {
             const validatedData = categorySchema.parse(data);
             console.log("VALIDATE DATA", validatedData)
             // Prisma orqali saqlash va natijani qaytarish
-            return prisma.category.create({
+            return await prisma.category.create({
                 data: validatedData,
             });
 

@@ -64,7 +64,10 @@ export const categoryController = {
     // update category by ID
     updateCategory: async (req: Request, res: Response) => {
         try {
-            const id = parseInt(req.params.id)
+
+            const id = Number(req.params.id)
+            req.body.price = Number(req.body.price);
+
             const data = {
                 ...req.body,
                 workbook_path: req.file?.path,
