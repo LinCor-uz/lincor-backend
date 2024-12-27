@@ -1,38 +1,42 @@
-import multer from "multer"
+import multer from "multer";
 import * as path from "node:path";
 import * as process from "node:process";
 import * as fs from "node:fs";
 import {sendError} from "@utils";
 
-const videoDir = path.join(process.cwd(), "uploads", "video"); // path = LinCor.uz/uploads/video
+// Video fayllar uchun direktoriyani aniqlash
+const videoDir = path.join(process.cwd(), "uploads", "video");
 
 if (!fs.existsSync(videoDir)) {
     fs.mkdirSync(videoDir, {recursive: true});
 }
 
+// Fayl filtrini aniqlash
 const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
-    const allowedMimeTypes = ["video/mp4", "video/webm", "video/x-msvideo", "video/x-matroska"] // mp4, webm, avi, mkv video type'lar
+    console.log("File Mimetype:", file.mimetype);  // Fayl mimetype'ini tekshirish
+    const allowedMimeTypes = ["video/mp4", "video/webm", "video/x-msvideo", "video/x-matroska"];
 
-    if (allowedMimeTypes.includes(file.mimetype)) {
-        cb(null, true);
-    } else {
-        // @ts-ignore
-        cb(new sendError("Only mp4, webm, avi, mkv types allowed to upload", 403), false);
+    if (!allowedMimeTypes.includes(file.mimetype)) {
+        const error2 = new sendError("File type not allowed", 403);
+        return cb(error2 as any, false);
     }
-}
 
+    cb(null, true);  // Faylni ruxsat etilganini ko'rsatish
+};
 
-const storege = multer.diskStorage({
+// Fayl saqlash va nomlash
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, videoDir)
+        cb(null, videoDir);
     },
     filename: (req, file, cb) => {
-        const uniqueName = `workbook-${Date.now()}-${file.originalname}`
-
-        cb(null, uniqueName)
+        const uniqueName = `video-${Date.now()}-${file.originalname}`;
+        cb(null, uniqueName);
     }
-})
+});
 
+// Multer ni eksport qilish
 export const uploadVideo = multer({
-    storage: storege
-})
+    storage: storage,
+    fileFilter: fileFilter // Faylni filtrlash
+});
