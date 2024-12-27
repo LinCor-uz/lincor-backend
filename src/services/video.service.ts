@@ -34,8 +34,21 @@ export const videoService = {
 
     //get all videos service
     async getAllVideos(): Promise<Video[]> {
-        console.log("Getting all videos")
         return prisma.video.findMany({include: {Category: true}})
+    },
+
+    // update video by id
+    async updateVideo(id: number, data: Video): Promise<Video> {
+
+        const findById = await prisma.video.findUnique({where: {id}})
+        if (!findById) {
+            throw new sendError("Video not found", 404)
+        }
+
+        const videoUpdateSchema = videoSchema.partial()
+        const validatedData = videoUpdateSchema.parse(data);
+
+        return prisma.video.update({where: {id}, data: validatedData})
     }
 
 }
