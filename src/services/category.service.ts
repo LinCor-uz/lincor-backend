@@ -4,10 +4,13 @@ import {sendError} from "@utils";
 import {ZodError} from "zod";
 
 export const categoryService = {
+
+    // get all categories
     async getAllCategories(): Promise<Category[]> {
         return prisma.category.findMany({include: {videos: true}})
     },
 
+    // find category by ID
     async findCategoryById(id: number): Promise<Category> {
         const category = await prisma.category.findUnique({where: {id}, include: {videos: true}})
 
@@ -18,6 +21,7 @@ export const categoryService = {
         return category
     },
 
+    // create category
     async createCategoryService(data: unknown): Promise<Category> {
         // kelgan datani validatsiya qilish
         console.log("DATA", data)
@@ -38,6 +42,7 @@ export const categoryService = {
         }
     },
 
+    // update category by ID
     async updateCategoryService(id: number, data: unknown): Promise<Category> {
 
         const findById = await prisma.category.findUnique({where: {id}})
@@ -64,6 +69,7 @@ export const categoryService = {
         }
     },
 
+    // delete category by ID
     async deleteCategoryService(id: number): Promise<void> {
         const findById = await prisma.category.findUnique({where: {id}})
         if (!
