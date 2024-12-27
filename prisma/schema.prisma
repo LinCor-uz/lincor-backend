@@ -48,11 +48,10 @@ model ProfileCategory {
 }
 
 model Video {
-  id             Int       @id @default(autoincrement())
-  title          String
-  description    String
-  reviewImg_path String?
-  video_path     String
-  Category       Category? @relation(fields: [categoryId], references: [id])
-  categoryId     Int?
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String
+  video_path  String
+  Category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  Int
 }
