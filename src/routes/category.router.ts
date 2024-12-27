@@ -1,12 +1,14 @@
 import {Router} from 'express'
 import {categoryController} from "@controllers";
-import {isValidId, upload} from "@middlewares";
+import {isValidId, uploadWokrbook} from "@middlewares";
 
-export const router = Router()
+export const categoryRouter = Router()
 
-router
-    .get("/categories", categoryController.getAllCategories)
-    .get("/category/:id", isValidId, categoryController.getCategorById)
-    .post("/category", upload.single('workbook'), categoryController.createCategory)
-    .put("/category/:id", isValidId, upload.single('workbook'), categoryController.updateCategory)
-    .delete("/category/:id", isValidId, categoryController.deleteCategory)
+// "/category/ + categoryRouter"
+
+categoryRouter
+    .get("/", categoryController.getAllCategories)
+    .get("/:id", isValidId, categoryController.getCategorById)
+    .post("/", uploadWokrbook.single('workbook'), categoryController.createCategory)
+    .put("/:id", isValidId, uploadWokrbook.single('workbook'), categoryController.updateCategory)
+    .delete("/:id", isValidId, categoryController.deleteCategory)
