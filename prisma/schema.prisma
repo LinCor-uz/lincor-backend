@@ -8,13 +8,13 @@ datasource db {
 }
 
 model User {
-  id        Int     @id @unique @default(autoincrement())
+  id        Int      @id @unique @default(autoincrement())
   firstname String
   lastname  String
-  phone     BigInt  @unique
+  phone     BigInt   @unique
   password  String
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId Int     @unique
+  profile   Profile?
+  profileId Int?     @unique
 }
 
 model Profile {
@@ -23,8 +23,10 @@ model Profile {
   ava_path          String?
   registered_at     DateTime
   isActive          Boolean           @default(false)
-  user              User?
+  user_id           Int?              @unique
+  user              User?             @relation(fields: [user_id], references: [id])
   profileCategories ProfileCategory[]
+  userId            Int?
 }
 
 model Category {
