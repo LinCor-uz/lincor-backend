@@ -14,7 +14,7 @@ export const userController = {
       });
     } catch (error: unknown) {
       const err = error as sendError;
-      console.log("###ERROR in create USER-  ", err.message);
+      console.log("###ERROR in create USER- ", err.message);
       res
         .status(err.statusCode || 500)
         .send({ success: false, error: err.message });
