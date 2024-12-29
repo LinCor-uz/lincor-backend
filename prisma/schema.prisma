@@ -11,7 +11,7 @@ model User {
   id        Int      @id @unique @default(autoincrement())
   firstname String
   lastname  String
-  phone     BigInt   @unique
+  phone     String   @unique
   password  String
   profile   Profile?
   profileId Int?     @unique
