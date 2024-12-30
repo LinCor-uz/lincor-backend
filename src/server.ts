@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 const app = express();
 const PORT = getEnvVariable("SERVER_PORT") ?? 8000;
 
-app.use(express.json());
+app.use(express.json({ limit: "1024kb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
