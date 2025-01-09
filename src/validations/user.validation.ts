@@ -16,6 +16,7 @@ export const userSchema = z.object({
       /^\+?[0-9]{9,}$/,
       "Phone number must be a valid format with at least 9 digits"
     ),
+  refreshToken: z.string().nullable().optional(),
   profileId: z.number().min(0).optional().nullable(),
 });
 
