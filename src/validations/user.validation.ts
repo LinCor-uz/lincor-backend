@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const userSchema = z.object({
+  id: z.number(),
   firstname: z
     .string()
     .min(3, "Firstname must be a string longer than 3 symbols"),
