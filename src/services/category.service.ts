@@ -25,11 +25,10 @@ export const categoryService = {
 
   // create category
   async createCategoryService(data: unknown): Promise<Category> {
-    // kelgan datani validatsiya qilish
-    console.log("DATA", data);
     try {
+      // kelgan datani validatsiya qilish
       const validatedData = categorySchema.parse(data);
-      
+
       // Prisma orqali saqlash va natijani qaytarish
       return await prisma.category.create({
         data: validatedData,
