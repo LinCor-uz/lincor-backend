@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @unique @default(autoincrement())
-  firstname String
-  lastname  String
-  phone     String   @unique
-  password  String
-  profile   Profile?
-  profileId Int?     @unique
+  id           Int      @id @unique @default(autoincrement())
+  firstname    String
+  lastname     String
+  phone        String   @unique
+  password     String
+  refreshToken String
+  profile      Profile?
+  profileId    Int?     @unique
 }
 
 model Profile {
