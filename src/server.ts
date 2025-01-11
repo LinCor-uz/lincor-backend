@@ -1,6 +1,6 @@
 import express from "express";
 import { getEnvVariable } from "@utils";
-import { categoryRouter, userRouter, videoRouter } from "@router";
+import { authRouter, categoryRouter, userRouter, videoRouter } from "@router";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const app = express();
@@ -14,7 +14,8 @@ app.use(cookieParser(getEnvVariable("COOKIE_SECRET") || ""));
 app
   .use("/api/v1/category", categoryRouter)
   .use("/api/v1/video", videoRouter)
-  .use("/api/v1/user", userRouter);
+  .use("/api/v1/user", userRouter)
+  .use("/api/v1/auth", authRouter);
 
 // core settings
 app.use(
