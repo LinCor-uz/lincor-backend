@@ -38,48 +38,76 @@ export const authController = {
     }
   },
 
-  refreshToken: async (res: Response, req: Request) => {
+  refreshToken: async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
+
+    // Check if the refresh token exists in the cookies
     if (!refreshToken) {
-      return res
-        .status(403)
-        .json({ success: false, message: "Invalid or expired token" });
-    }
-    const user = await prisma.user.findFirst({ where: { refreshToken } });
-
-    if (!user) {
-      return res
-        .status(403)
-        .send({ success: false, message: "Invalid or expired refresh token" });
+      res.status(403).json({
+        success: false,
+        message: "Invalid or expired token",
+      });
+      return;
     }
 
-    const { payload, expired } = verifyToken(
-      refreshToken,
-      getEnvVariable("REFRESH_TOKEN_SECRET")!
-    );
+    try {
+      // Verify if the refresh token exists in the database
+      const user = await prisma.user.findFirst({ where: { refreshToken } });
+      if (!user) {
+        res.status(403).json({
+          success: false,
+          message: "Invalid or expired refresh token",
+        });
+        return;
+      }
 
-    if (expired || !payload) {
-      return res.status(403).json({ message: "Invalid refresh token" });
+      const { payload, expired } = verifyToken(
+        refreshToken,
+        getEnvVariable("REFRESH_TOKEN_SECRET")!
+      );
+
+      if (expired || !payload) {
+        res.status(403).json({
+          success: false,
+          message: "Invalid or expired refresh token",
+        });
+        return;
+      }
+
+      const accessToken = generateAccessToken(user);
+      res.status(200).json({
+        success: true,
+        token: accessToken,
+      });
+    } catch (error) {
+      console.error("Error handling refresh token:", error);
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+      });
     }
-
-    const accessToken = generateAccessToken(user);
-    res.send({ token: accessToken });
   },
   logout: async (res: Response, req: Request) => {
-    const { refreshToken } = req.cookies;
+    try {
+      const { refreshToken } = req.cookies;
 
-    if (refreshToken) {
-      const user = await prisma.user.findFirst({ where: { refreshToken } });
+      if (refreshToken) {
+        const user = await prisma.user.findFirst({ where: { refreshToken } });
 
-      if (user) {
-        await prisma.user.update({
-          where: { id: user.id },
-          data: { refreshToken: " " },
-        });
+        if (user) {
+          await prisma.user.update({
+            where: { id: user.id },
+            data: { refreshToken: " " },
+          });
+        }
       }
-    }
 
-    res.clearCookie("refreshToken");
-    res.status(200).send({ success: true, message: "Successfuly logout" });
+      res.clearCookie("refreshToken");
+      res.status(200).send({ success: true, message: "Successfuly logout" });
+    } catch (error: unknown) {
+      const err = error as Error;
+      console.log("#ERROR logOut - ", err);
+      res.status(500).send({ success: false, error: err.message });
+    }
   },
 };
