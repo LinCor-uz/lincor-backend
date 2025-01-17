@@ -1,6 +1,6 @@
 import { prisma } from "@config";
 import { authService } from "@services";
-import { generateAccessToken, getEnvVariable, verifyToken } from "@utils";
+import { generateAccessToken, generateRefreshToken, verify } from "@utils";
 import { Request, Response } from "express";
 
 export const authController = {
@@ -24,12 +24,24 @@ export const authController = {
     try {
       let data = { ...req.body, refreshToken: null };
 
-      let newUser = await authService.register(data);
+      let newUser = await authService.register(data, req.file);
+      console.log(newUser);
+
+      const accessToken = generateAccessToken({
+        id: newUser.id,
+        phone: newUser.phone,
+      });
+      const refreshToken = await generateRefreshToken(newUser);
+
+      res.cookie("accessToken", accessToken, { httpOnly: false });
+      res.cookie("refreshToken", refreshToken, { httpOnly: false });
 
       res.send({
         success: true,
         message: "Successfuly registered",
         newUser,
+        accessToken,
+        refreshToken,
       });
     } catch (error: unknown) {
       const err = error as Error;
@@ -41,7 +53,7 @@ export const authController = {
   refreshToken: async (req: Request, res: Response) => {
     const { refreshToken } = req.cookies;
 
-    // Check if the refresh token exists in the cookies
+    // Check the refresh token in cookies
     if (!refreshToken) {
       res.status(403).json({
         success: false,
@@ -61,13 +73,10 @@ export const authController = {
         return;
       }
 
-      const { payload, expired } = verifyToken(
-        refreshToken,
-        getEnvVariable("REFRESH_TOKEN_SECRET")!
-      );
+      const { payload, expired } = verify(refreshToken);
 
       if (expired || !payload) {
-        res.status(403).json({
+        res.status(401).json({
           success: false,
           message: "Invalid or expired refresh token",
         });

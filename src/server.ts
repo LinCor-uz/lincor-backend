@@ -17,6 +17,12 @@ app
   .use("/api/v1/user", userRouter)
   .use("/api/v1/auth", authRouter);
 
+console.log("Base URi's");
+
+console.log(`http://localhost:${PORT}/api/v1/category/  -- Category Router`);
+console.log(`http://localhost:${PORT}/api/v1/video/  -- Video Router`);
+console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth Router`);
+
 // core settings
 app.use(
   cors({

@@ -23,6 +23,7 @@ export const categoryController = {
   getAllCategories: async (req: Request, res: Response) => {
     try {
       const data = await categoryService.getAllCategories();
+
       res.status(200).send(data);
     } catch (error: unknown) {
       const err = error as Error;
@@ -44,7 +45,7 @@ export const categoryController = {
       };
       const result = await categoryService.createCategoryService(data);
 
-      res.status(200).send({
+      res.status(201).send({
         success: true,
         result: result,
       });

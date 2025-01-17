@@ -1,23 +1,41 @@
-import { NextFunction, Request, Response } from "express";
-import { userService } from "@services";
-import { prisma } from "@config";
-import { sendError } from "@utils";
+// import { prisma } from "@config";
+// // import { userService } from "@services";
+// import { sendError } from "@utils";
+// import { Request, Response } from "express";
 
-export const userController = {
-  createUser: async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = await userService.registerUser(req.body);
+// export const userController = {
+//   getMe: async (req: Request, res: Response) => {
+//     try {
+//       const data = { ...req.user, profileId: req.user.id };
+//       const user = await userService.getMe(data);
 
-      res.status(201).send({
-        success: true,
-        data: user,
-      });
-    } catch (error: unknown) {
-      const err = error as sendError;
-      console.log("###ERROR in create USER- ", err.message);
-      res
-        .status(err.statusCode || 500)
-        .send({ success: false, error: err.message });
-    }
-  },
-};
+//       res.send({
+//         success: false,
+//         data: user,
+//       });
+//     } catch (error: unknown) {
+//       const err = error as sendError;
+//       console.log("###ERROR in create USER- ", err.message);
+//       res
+//         .status(err.statusCode || 500)
+//         .send({ success: false, error: err.message });
+//     }
+//   },
+
+//   profile: async (req: Request, res: Response) => {
+//     try {
+//       const userInfo = await userService.editProfile(req.body, req.user);
+
+//       res.status(200).send({
+//         success: true,
+//         userInfo,
+//       });
+//     } catch (error: unknown) {
+//       const err = error as sendError;
+//       console.log("#ERROR updateUserInfo - ", err);
+//       res
+//         .status(err.statusCode || 500)
+//         .send({ success: false, error: err.message });
+//     }
+//   },
+// };

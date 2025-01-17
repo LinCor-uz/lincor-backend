@@ -1,10 +1,15 @@
 import { authController } from "@controllers";
+import {
+  checkAccessToken,
+  uploadAvatar,
+  verifyRefreshToken,
+} from "@middlewares";
 import { Router } from "express";
 
 export const authRouter = Router();
 
 authRouter
-  .post("/register", authController.register)
+  .post("/register", uploadAvatar.single("avatar"), authController.register)
   .post("/login", authController.login)
-  .post("/logout", authController.logout)
-  .post("/token", authController.refreshToken);
+  .post("/logout", checkAccessToken, authController.logout)
+  .post("/token", verifyRefreshToken, authController.refreshToken);

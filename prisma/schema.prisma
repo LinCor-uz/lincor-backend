@@ -13,21 +13,20 @@ model User {
   lastname     String
   phone        String   @unique
   password     String
-  refreshToken String
+  address      String?
+  ava_path     String   @default("src/uploads/avatars/default-avatar.png")
+  refreshToken String?
+  isActive     Boolean  @default(false)
   profile      Profile?
   profileId    Int?     @unique
 }
 
 model Profile {
   id                Int               @id @default(autoincrement())
-  address           String
-  ava_path          String?
   registered_at     DateTime
-  isActive          Boolean           @default(false)
   user_id           Int?              @unique
   user              User?             @relation(fields: [user_id], references: [id])
   profileCategories ProfileCategory[]
-  userId            Int?
 }
 
 model Category {

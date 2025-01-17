@@ -2,11 +2,10 @@ import multer from "multer";
 import * as fs from "node:fs";
 import { sendError } from "@utils";
 
-// Video fayllar uchun direktoriyani aniqlash
-const videoDir = "uploads/video/";
+const avatarDir = "uploads/avatars/";
 
-if (!fs.existsSync(videoDir)) {
-  fs.mkdirSync(videoDir, { recursive: true });
+if (!fs.existsSync(avatarDir)) {
+  fs.mkdirSync(avatarDir, { recursive: true });
 }
 
 // Fayl filtrini aniqlash
@@ -17,15 +16,14 @@ const fileFilter = (
 ) => {
   console.log("File Mimetype:", file.mimetype); // Fayl mimetype'ini tekshirish
   const allowedMimeTypes = [
-    "video/mp4",
-    "video/webm",
-    "video/x-msvideo",
-    "video/x-matroska",
+    "image/jpeg",
+    "image/png",
+    "image/webp",
   ];
 
   if (!allowedMimeTypes.includes(file.mimetype)) {
-    const error2 = new sendError("File type not allowed", 403);
-    return cb(error2 as any, false);
+    const error = new sendError("File type not allowed", 403);
+    return cb(error as any, false);
   }
 
   cb(null, true); // Faylni ruxsat etilganini ko'rsatish
@@ -34,16 +32,16 @@ const fileFilter = (
 // Fayl saqlash va nomlash
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, videoDir);
+    cb(null, avatarDir);
   },
   filename: (req, file, cb) => {
-    const uniqueName = `video-${Date.now()}-${file.originalname}`;
+    const uniqueName = `avatar-${Date.now()}-${file.originalname}`;
     cb(null, uniqueName);
   },
 });
 
 // Multer ni eksport qilish
-export const uploadVideo = multer({
+export const uploadAvatar = multer({
   storage,
   fileFilter, // Faylni filtrlash
 });
