@@ -27,10 +27,11 @@ console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth Router`);
 app.use(
   cors({
     origin: "http://localhost:5173",
-    optionsSuccessStatus: 200,
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 app.use("/*", (req, res) => {
   res.status(404).send("Page Not Found");
 });
