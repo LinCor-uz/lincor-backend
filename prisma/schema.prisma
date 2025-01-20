@@ -1,3 +1,6 @@
+/**
+ * ***********  ✨ Codeium Command 🌟  ************
+ */
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,14 +21,14 @@ model User {
   refreshToken String?
   isActive     Boolean  @default(false)
   profile      Profile?
-  profileId    Int?     @unique
 }
 
 model Profile {
   id                Int               @id @default(autoincrement())
   registered_at     DateTime
+  payed             Int               @default(0)
   user_id           Int?              @unique
-  user              User?             @relation(fields: [user_id], references: [id])
+  user              User?             @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   profileCategories ProfileCategory[]
 }
 
@@ -43,8 +46,8 @@ model ProfileCategory {
   id         Int      @id @default(autoincrement())
   profileId  Int
   categoryId Int
-  profile    Profile  @relation(fields: [profileId], references: [id])
-  category   Category @relation(fields: [categoryId], references: [id])
+  profile    Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@unique([profileId, categoryId])
 }
@@ -54,6 +57,10 @@ model Video {
   title       String
   description String
   video_path  String
-  Category    Category? @relation(fields: [categoryId], references: [id])
+  Category    Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId  Int
 }
+
+/**
+ * ****  0122c4e1-c7d5-4f91-bc6b-f9fa9b3a8882  ******
+ */

@@ -59,13 +59,12 @@ export const authService = {
         throw new sendError("Please fill all section", 400);
       }
 
-        const hashedPassword = await hashPassword(data.password);
+      const hashedPassword = await hashPassword(data.password);
 
       return await prisma.user.create({
         data: {
           ...validatedData,
           password: hashedPassword,
-          refreshToken: "already saved in db",
         },
       });
     } catch (error) {

@@ -10,6 +10,7 @@ interface IProfile {
   password?: string;
   address?: string;
   phone?: string;
+  payed: number;
   ava_path?: string;
   user_id?: string;
   profileId?: number;
@@ -24,11 +25,9 @@ interface IUser {
 export const userService = {
   async getMe(user: IUser) {
     try {
-      console.log("USER SERVICE GET ME INFO OF USER", user);
-
       const me = await prisma.user.findUnique({
         where: { id: user.id },
-        include: { profile: true },
+        include: { profile: { include: { profileCategories: true } } },
       });
 
       console.log(me);
@@ -50,7 +49,7 @@ export const userService = {
         where: { id: user.id },
       });
 
-      const validateData = userSchema.safeParse(data);
+      const validateData = userSchema.partial().safeParse(data);
 
       if (!validateData.success) {
         const validationError = validateData.error.errors

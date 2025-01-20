@@ -35,7 +35,6 @@ export const userSchema = z.object({
       "Phone number must be a valid format with at least 9 digits"
     ),
   refreshToken: z.string().optional().nullable(),
-  profileId: z.number().min(0).optional().nullable(),
   ava_path: z.string().default("src/uploads/avatar/default-avatar.png"),
   isActive: z.boolean().default(false),
 });

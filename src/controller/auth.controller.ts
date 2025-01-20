@@ -36,9 +36,8 @@ export const authController = {
       res.cookie("accessToken", accessToken, { httpOnly: false });
       res.cookie("refreshToken", refreshToken, { httpOnly: false });
 
-      res.send({
+      res.status(201).send({
         success: true,
-        message: "Successfuly registered",
         newUser,
         accessToken,
         refreshToken,
