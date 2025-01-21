@@ -1,6 +1,7 @@
 import { authController } from "@controllers";
 import {
   checkAccessToken,
+  sessionMiddleware,
   uploadAvatar,
   verifyRefreshToken,
 } from "@middlewares";
@@ -12,4 +13,7 @@ authRouter
   .post("/register", uploadAvatar.single("avatar"), authController.register)
   .post("/login", authController.login)
   .post("/logout", checkAccessToken, authController.logout)
-  .post("/token", verifyRefreshToken, authController.refreshToken);
+  .post("/token", verifyRefreshToken, authController.refreshToken)
+  .get("/test", sessionMiddleware, (req, res) => {
+    res.send("Test route");
+  });

@@ -15,6 +15,7 @@ interface LoginData {
 }
 
 export const authService = {
+
   async login(data: LoginData) {
     if (!data.password || !data.phone) {
       throw new sendError("Please fill all section", 403);
@@ -34,7 +35,7 @@ export const authService = {
     const accessToken = generateAccessToken(user);
     const refreshToken = await generateRefreshToken(user);
 
-    return { accessToken, refreshToken };
+    return { accessToken, refreshToken, user };
   },
 
   async register(
