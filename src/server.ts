@@ -24,13 +24,7 @@ console.log(`http://localhost:${PORT}/api/v1/video/  -- Video Router`);
 console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth Router`);
 
 // core settings
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 app.use("/*", (req, res) => {
   res.status(404).send("Page Not Found");
