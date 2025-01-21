@@ -2,15 +2,19 @@ import { prisma } from "@config";
 import { authService } from "@services";
 import { generateAccessToken, generateRefreshToken, verify } from "@utils";
 import { Request, Response } from "express";
+import Redis from "ioredis";
+
+const redis = new Redis();
 
 export const authController = {
   login: async (req: Request, res: Response) => {
     try {
       const date = req.body;
 
-      let { refreshToken, accessToken } = await authService.login(date);
+      let { refreshToken, accessToken, user } = await authService.login(date);
 
       res.cookie("refreshToken", refreshToken, { httpOnly: true });
+      await redis.set(`user:${user.id}`, accessToken);
 
       res.send({ accessToken });
     } catch (error: unknown) {
