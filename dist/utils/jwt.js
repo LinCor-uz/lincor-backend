@@ -7,13 +7,22 @@ exports.verify = exports.sign = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const _utils_1 = require("@utils");
 const SECRET_KEY = (0, _utils_1.getEnvVariable)("SECRET_KEY") || "default_secret_key";
-const sign = (payload) => {
-    console.log("Payload of jwt", payload);
-    console.log("Secret key of jwt", SECRET_KEY);
-    return jsonwebtoken_1.default.sign(payload, SECRET_KEY);
+const sign = (payload, expiresIn) => {
+    const token = jsonwebtoken_1.default.sign(payload, SECRET_KEY, {
+        algorithm: "HS256",
+        expiresIn,
+    });
+    return token;
 };
 exports.sign = sign;
 const verify = (token) => {
-    return jsonwebtoken_1.default.verify(token, SECRET_KEY);
+    try {
+        const decode = jsonwebtoken_1.default.verify(token, SECRET_KEY);
+        console.log("DECODED JWT ", decode);
+        return { payload: decode, expired: false };
+    }
+    catch (error) {
+        return { payload: null, expired: error.message.includes("jwt expired") };
+    }
 };
 exports.verify = verify;

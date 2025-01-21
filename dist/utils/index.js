@@ -16,3 +16,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./dotenv"), exports);
 __exportStar(require("./jwt"), exports);
+__exportStar(require("./error.class"), exports);
+__exportStar(require("./generateToken"), exports);
+__exportStar(require("./hashPassword"), exports);
