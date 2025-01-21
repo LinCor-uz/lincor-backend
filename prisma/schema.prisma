@@ -1,6 +1,3 @@
-/**
- * ***********  ✨ Codeium Command 🌟  ************
- */
 generator client {
   provider = "prisma-client-js"
 }
@@ -60,7 +57,3 @@ model Video {
   Category    Category? @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId  Int
 }
-
-/**
- * ****  0122c4e1-c7d5-4f91-bc6b-f9fa9b3a8882  ******
- */
