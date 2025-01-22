@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verifyRefreshToken = exports.checkAccessToken = void 0;
-const _utils_1 = require("@utils");
+const utils_1 = require("../utils");
 const checkAccessToken = (req, res, next) => {
     var _a;
     const token = (_a = req.headers["authorization"]) === null || _a === void 0 ? void 0 : _a.split(" ")[1];
@@ -11,7 +11,7 @@ const checkAccessToken = (req, res, next) => {
             message: "Access token required",
         });
     }
-    const { payload, expired } = (0, _utils_1.verify)(token);
+    const { payload, expired } = (0, utils_1.verify)(token);
     // Agar token muddati tugagan bo'lsa yoki noto'g'ri token bo'lsa
     if (expired || !payload) {
         return res.status(401).send({
@@ -32,7 +32,7 @@ const verifyRefreshToken = (req, res, next) => {
         });
     }
     try {
-        const decoded = (0, _utils_1.verify)(refreshToken);
+        const decoded = (0, utils_1.verify)(refreshToken);
         if (!decoded) {
             res.status(401).send({
                 success: false,

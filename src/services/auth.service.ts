@@ -1,11 +1,11 @@
-import { prisma } from "@config";
+import { prisma } from "../config";
 import {
   generateAccessToken,
   generateRefreshToken,
   hashPassword,
   sendError,
-} from "@utils";
-import { User, userSchema } from "@validations";
+} from "../utils";
+import { User, userSchema } from "../validations";
 import { ZodError } from "zod";
 import bcrypt from "bcrypt";
 
@@ -15,7 +15,6 @@ interface LoginData {
 }
 
 export const authService = {
-
   async login(data: LoginData) {
     if (!data.password || !data.phone) {
       throw new sendError("Please fill all section", 403);

@@ -1,5 +1,5 @@
-import { userController } from "@controllers";
-import { checkAccessToken, uploadAvatar } from "@middlewares";
+import { userController } from "../controller";
+import { checkAccessToken, uploadAvatar } from "../middlewares";
 import { Router } from "express";
 
 export const userRouter = Router();

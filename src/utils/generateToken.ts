@@ -1,6 +1,6 @@
-import { User } from "@validations";
+
 import { getEnvVariable } from "./dotenv";
-import { prisma } from "@config";
+import { prisma } from "../config";
 import { sign } from "./jwt";
 interface IUser {
   id: number;

@@ -10,14 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.categoryController = void 0;
-const _services_1 = require("@services");
+const services_1 = require("../services");
 exports.categoryController = {
     // get category by category ID
     getCategorById: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const id = parseInt(req.params.id);
         console.log(id);
         try {
-            const category = yield _services_1.categoryService.findCategoryById(id);
+            const category = yield services_1.categoryService.findCategoryById(id);
             res.status(200).send(category);
         }
         catch (error) {
@@ -31,7 +31,7 @@ exports.categoryController = {
     // get all categories
     getAllCategories: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const data = yield _services_1.categoryService.getAllCategories();
+            const data = yield services_1.categoryService.getAllCategories();
             res.status(200).send(data);
         }
         catch (error) {
@@ -48,7 +48,7 @@ exports.categoryController = {
                 req.body.price = Number(req.body.price);
             }
             const data = Object.assign(Object.assign({}, req.body), { workbook_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.path });
-            const result = yield _services_1.categoryService.createCategoryService(data);
+            const result = yield services_1.categoryService.createCategoryService(data);
             res.status(201).send({
                 success: true,
                 result: result,
@@ -69,7 +69,7 @@ exports.categoryController = {
             const id = Number(req.params.id);
             req.body.price = Number(req.body.price);
             const data = Object.assign(Object.assign({}, req.body), { workbook_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.path });
-            const result = yield _services_1.categoryService.updateCategoryService(id, data);
+            const result = yield services_1.categoryService.updateCategoryService(id, data);
             res.status(200).send({ success: true, result: result });
         }
         catch (error) {
@@ -84,7 +84,7 @@ exports.categoryController = {
     deleteCategory: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const id = parseInt(req.params.id);
-            yield _services_1.categoryService.deleteCategoryService(id);
+            yield services_1.categoryService.deleteCategoryService(id);
             res
                 .status(200)
                 .send({ success: true, message: "Category deleted successfully" });

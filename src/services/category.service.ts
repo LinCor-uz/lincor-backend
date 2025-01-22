@@ -1,6 +1,7 @@
-import { prisma } from "@config";
-import { Category, categorySchema } from "@validations";
-import { sendError } from "@utils";
+
+import { prisma } from "../config";
+import { Category, categorySchema } from "../validations";
+import { sendError } from "../utils";
 import { ZodError } from "zod";
 
 export const categoryService = {

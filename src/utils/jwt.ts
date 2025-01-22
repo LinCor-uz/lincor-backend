@@ -1,5 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { getEnvVariable } from "@utils";
+import { getEnvVariable } from "../utils";
 
 const SECRET_KEY: string | null =
   getEnvVariable("SECRET_KEY") || "default_secret_key";

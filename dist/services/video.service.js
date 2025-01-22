@@ -10,23 +10,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.videoService = void 0;
-const _validations_1 = require("@validations");
-const _config_1 = require("@config");
+const validations_1 = require("../validations");
+const config_1 = require("../config");
 const zod_1 = require("zod");
-const _utils_1 = require("@utils");
+const utils_1 = require("../utils");
 exports.videoService = {
     // create video service
     createVideo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log(data);
-                const validateData = _validations_1.videoSchema.parse(data);
-                return yield _config_1.prisma.video.create({ data: validateData });
+                const validateData = validations_1.videoSchema.parse(data);
+                return yield config_1.prisma.video.create({ data: validateData });
             }
             catch (err) {
                 if (err instanceof zod_1.ZodError) {
                     const validationError = err.errors.map((e) => e.message).join(", ");
-                    throw new _utils_1.sendError(`Validation Error: ${validationError}`, 400);
+                    throw new utils_1.sendError(`Validation Error: ${validationError}`, 400);
                 }
                 throw err;
             }
@@ -35,31 +35,31 @@ exports.videoService = {
     // delete video service
     deleteVideo(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findById = yield _config_1.prisma.video.findUnique({ where: { id } });
+            const findById = yield config_1.prisma.video.findUnique({ where: { id } });
             if (!findById) {
-                throw new _utils_1.sendError("Video not found", 404);
+                throw new utils_1.sendError("Video not found", 404);
             }
             else {
-                yield _config_1.prisma.video.delete({ where: { id } });
+                yield config_1.prisma.video.delete({ where: { id } });
             }
         });
     },
     //get all videos service
     getAllVideos() {
         return __awaiter(this, void 0, void 0, function* () {
-            return _config_1.prisma.video.findMany({ include: { Category: true } });
+            return config_1.prisma.video.findMany({ include: { Category: true } });
         });
     },
     // update video by id
     updateVideo(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findById = yield _config_1.prisma.video.findUnique({ where: { id } });
+            const findById = yield config_1.prisma.video.findUnique({ where: { id } });
             if (!findById) {
-                throw new _utils_1.sendError("Video not found", 404);
+                throw new utils_1.sendError("Video not found", 404);
             }
-            const videoUpdateSchema = _validations_1.videoSchema.partial();
+            const videoUpdateSchema = validations_1.videoSchema.partial();
             const validatedData = videoUpdateSchema.parse(data);
-            return _config_1.prisma.video.update({ where: { id }, data: validatedData });
+            return config_1.prisma.video.update({ where: { id }, data: validatedData });
         });
-    }
+    },
 };

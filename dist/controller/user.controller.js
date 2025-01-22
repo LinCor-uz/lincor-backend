@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userController = void 0;
-const _services_1 = require("@services");
+const services_1 = require("../services");
 exports.userController = {
     getMe: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const data = Object.assign({}, req.user);
-            const user = yield _services_1.userService.getMe(data);
+            const user = yield services_1.userService.getMe(data);
             res.send({
                 success: true,
                 data: user,
@@ -31,7 +31,7 @@ exports.userController = {
     }),
     profile: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const userInfo = yield _services_1.userService.editProfile(req.body, req.user);
+            const userInfo = yield services_1.userService.editProfile(req.body, req.user);
             res.status(200).send({
                 success: true,
                 userInfo,

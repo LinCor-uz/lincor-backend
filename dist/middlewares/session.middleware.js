@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sessionMiddleware = void 0;
-const _utils_1 = require("@utils");
+const utils_1 = require("../utils");
 const ioredis_1 = __importDefault(require("ioredis"));
 const redis = new ioredis_1.default();
 const sessionMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,7 +23,7 @@ const sessionMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, 
     }
     try {
         const token = authHeader.split(" ")[1];
-        const decoded = (0, _utils_1.verify)(token);
+        const decoded = (0, utils_1.verify)(token);
         let storedToken = null;
         if (decoded.payload) {
             const userId = decoded.payload.id;

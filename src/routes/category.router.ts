@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { categoryController } from "@controllers";
-import { checkAccessToken, isValidId, uploadWokrbook } from "@middlewares";
+import { categoryController } from "../controller";
+import { checkAccessToken, isValidId, uploadWokrbook } from "../middlewares";
 
 export const categoryRouter = Router();
 

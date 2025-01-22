@@ -17,7 +17,7 @@ export const isValidId = (
     const errors = isValid.error.errors.map((error) => error.message);
     return res
       .status(400)
-      .send({ success: false, errors: errors, message: "invalid ID" });
+      .send({ success: false, errors:errors, message: "invalid ID" });
   }
 
   next();

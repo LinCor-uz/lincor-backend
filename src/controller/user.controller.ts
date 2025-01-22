@@ -1,6 +1,5 @@
-import { prisma } from "@config";
-import { userService } from "@services";
-import { sendError } from "@utils";
+import { userService } from "../services";
+import { sendError } from "../utils";
 import { Request, Response } from "express";
 
 export const userController = {

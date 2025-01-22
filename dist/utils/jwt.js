@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.verify = exports.sign = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const _utils_1 = require("@utils");
-const SECRET_KEY = (0, _utils_1.getEnvVariable)("SECRET_KEY") || "default_secret_key";
+const utils_1 = require("../utils");
+const SECRET_KEY = (0, utils_1.getEnvVariable)("SECRET_KEY") || "default_secret_key";
 const sign = (payload, expiresIn) => {
     const token = jsonwebtoken_1.default.sign(payload, SECRET_KEY, {
         algorithm: "HS256",

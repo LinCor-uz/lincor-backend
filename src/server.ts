@@ -1,8 +1,9 @@
 import express from "express";
-import { getEnvVariable } from "@utils";
-import { authRouter, categoryRouter, userRouter, videoRouter } from "@router";
+
+import { authRouter, categoryRouter, userRouter, videoRouter } from "./routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { getEnvVariable } from "././utils";
 const app = express();
 const PORT = getEnvVariable("SERVER_PORT") || "8000";
 
@@ -19,9 +20,9 @@ app
 
 console.log("Base URi's");
 
-console.log(`http://localhost:${PORT}/api/v1/category/  -- Category Router`);
-console.log(`http://localhost:${PORT}/api/v1/video/  -- Video Router`);
-console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth Router`);
+console.log(`http://localhost:${PORT}/api/v1/category/  -- Category ./router`);
+console.log(`http://localhost:${PORT}/api/v1/video/  -- Video ./router`);
+console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth ./router`);
 
 // core settings
 app.use(cors());

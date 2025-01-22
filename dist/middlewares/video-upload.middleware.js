@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadVideo = void 0;
 const multer_1 = __importDefault(require("multer"));
 const fs = __importStar(require("node:fs"));
-const _utils_1 = require("@utils");
+const utils_1 = require("../utils");
 // Video fayllar uchun direktoriyani aniqlash
 const videoDir = "uploads/video/";
 if (!fs.existsSync(videoDir)) {
@@ -55,7 +55,7 @@ const fileFilter = (req, file, cb) => {
         "video/x-matroska",
     ];
     if (!allowedMimeTypes.includes(file.mimetype)) {
-        const error2 = new _utils_1.sendError("File type not allowed", 403);
+        const error2 = new utils_1.sendError("File type not allowed", 403);
         return cb(error2, false);
     }
     cb(null, true); // Faylni ruxsat etilganini ko'rsatish

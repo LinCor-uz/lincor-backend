@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { videoService } from "@services";
-import { sendError } from "@utils";
+import { videoService } from "../services";
+import { sendError } from "../utils";
 
 export const videoController = {
   // create video

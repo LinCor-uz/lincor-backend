@@ -4,9 +4,9 @@
   "description": "\"# lincor-backend\"",
   "main": "server.ts",
   "scripts": {
-    "dev": "nodemon",
+    "shivkumarscript": "ts-node -T -P server/tsconfig.json src/server.ts",
+    "dev": "ts-node -r tsconfig-paths/register ./src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
     "prisma-migrate": "npx prisma migrate dev --name prisma && npx prisma generate"
   },
   "repository": {

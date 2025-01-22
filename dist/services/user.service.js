@@ -10,15 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
-const _validations_1 = require("@validations");
-const _config_1 = require("@config");
+const validations_1 = require("../validations");
+const config_1 = require("../config");
 const zod_1 = require("zod");
-const _utils_1 = require("@utils");
+const utils_1 = require("../utils");
 exports.userService = {
     getMe(user) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const me = yield _config_1.prisma.user.findUnique({
+                const me = yield config_1.prisma.user.findUnique({
                     where: { id: user.id },
                     include: { profile: { include: { profileCategories: true } } },
                 });
@@ -28,7 +28,7 @@ exports.userService = {
             catch (err) {
                 if (err instanceof zod_1.ZodError) {
                     const validationError = err.errors.map((e) => e.message).join(", ");
-                    throw new _utils_1.sendError(`Validation Error: ${validationError}`, 400);
+                    throw new utils_1.sendError(`Validation Error: ${validationError}`, 400);
                 }
                 throw err;
             }
@@ -39,27 +39,27 @@ exports.userService = {
             var _a, _b, _c, _d, _e, _f;
             try {
                 // Eski foydalanuvchi ma'lumotlarini olish
-                const oldUser = yield _config_1.prisma.user.findUnique({
+                const oldUser = yield config_1.prisma.user.findUnique({
                     where: { id: user.id },
                 });
-                const validateData = _validations_1.userSchema.partial().safeParse(data);
+                const validateData = validations_1.userSchema.partial().safeParse(data);
                 if (!validateData.success) {
                     const validationError = validateData.error.errors
                         .map((e) => e.message)
                         .join(", ");
-                    throw new _utils_1.sendError(`Validation Error: ${validationError}`, 400);
+                    throw new utils_1.sendError(`Validation Error: ${validationError}`, 400);
                 }
                 if (!oldUser) {
                     throw new Error("User not found");
                 }
                 // Foydalanuvchining profili mavjudligini tekshirish
-                let profile = yield _config_1.prisma.profile.findUnique({
+                let profile = yield config_1.prisma.profile.findUnique({
                     where: { user_id: user.id },
                 });
                 // Profil mavjud bo'lmasa, yangi profil yaratish
                 if (!profile) {
                     console.log("profile #######");
-                    yield _config_1.prisma.profile.create({
+                    yield config_1.prisma.profile.create({
                         data: {
                             user_id: Number(user.id),
                             registered_at: new Date().toISOString(),
@@ -68,7 +68,7 @@ exports.userService = {
                 }
                 // Parolni xeshlash (agar yangi parol yuborilgan bo'lsa)
                 const hashedPassword = data.password
-                    ? yield (0, _utils_1.hashPassword)(data.password)
+                    ? yield (0, utils_1.hashPassword)(data.password)
                     : oldUser.password;
                 // Yangilash ma'lumotlari
                 let updateUser = {
@@ -79,7 +79,7 @@ exports.userService = {
                     lastname: (_e = data.lastname) !== null && _e !== void 0 ? _e : oldUser.lastname,
                     firstname: (_f = data.firstname) !== null && _f !== void 0 ? _f : oldUser.firstname,
                 };
-                const newUserInfo = yield _config_1.prisma.user.update({
+                const newUserInfo = yield config_1.prisma.user.update({
                     where: { id: user.id },
                     data: updateUser,
                 });
@@ -89,7 +89,7 @@ exports.userService = {
             catch (err) {
                 if (err instanceof zod_1.ZodError) {
                     const validationError = err.errors.map((e) => e.message).join(", ");
-                    throw new _utils_1.sendError(`Validation Error: ${validationError}`, 400);
+                    throw new utils_1.sendError(`Validation Error: ${validationError}`, 400);
                 }
                 throw err;
             }

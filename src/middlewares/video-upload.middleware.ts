@@ -1,6 +1,6 @@
 import multer from "multer";
 import * as fs from "node:fs";
-import { sendError } from "@utils";
+import { sendError } from "../utils";
 
 // Video fayllar uchun direktoriyani aniqlash
 const videoDir = "uploads/video/";

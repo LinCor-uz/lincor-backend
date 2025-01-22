@@ -1,7 +1,7 @@
-import { User, userSchema } from "@validations";
-import { prisma } from "@config";
+import { User, userSchema } from "../validations";
+import { prisma } from "../config";
 import { ZodError, string } from "zod";
-import { hashPassword, sendError } from "@utils";
+import { hashPassword, sendError } from "../utils";
 
 interface IProfile {
   id: number;

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { categoryService } from "@services";
-import { sendError } from "@utils";
+import { categoryService } from "../services";
+import { sendError } from "../utils";
 
 export const categoryController = {
   // get category by category ID

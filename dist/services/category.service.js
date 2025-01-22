@@ -10,26 +10,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.categoryService = void 0;
-const _config_1 = require("@config");
-const _validations_1 = require("@validations");
-const _utils_1 = require("@utils");
+const config_1 = require("../config");
+const validations_1 = require("../validations");
+const utils_1 = require("../utils");
 const zod_1 = require("zod");
 exports.categoryService = {
     // get all categories
     getAllCategories() {
         return __awaiter(this, void 0, void 0, function* () {
-            return _config_1.prisma.category.findMany({ include: { videos: true } });
+            return config_1.prisma.category.findMany({ include: { videos: true } });
         });
     },
     // find category by ID
     findCategoryById(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const category = yield _config_1.prisma.category.findUnique({
+            const category = yield config_1.prisma.category.findUnique({
                 where: { id },
                 include: { videos: true },
             });
             if (!category) {
-                throw new _utils_1.sendError("Category not found", 404);
+                throw new utils_1.sendError("Category not found", 404);
             }
             return category;
         });
@@ -39,9 +39,9 @@ exports.categoryService = {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 // kelgan datani validatsiya qilish
-                const validatedData = _validations_1.categorySchema.parse(data);
+                const validatedData = validations_1.categorySchema.parse(data);
                 // Prisma orqali saqlash va natijani qaytarish
-                return yield _config_1.prisma.category.create({
+                return yield config_1.prisma.category.create({
                     data: validatedData,
                 });
             }
@@ -50,7 +50,7 @@ exports.categoryService = {
                     const validationError = error.errors
                         .map((error) => error.message)
                         .join(", ");
-                    throw new _utils_1.sendError(`Validation Error ${validationError}`, 400);
+                    throw new utils_1.sendError(`Validation Error ${validationError}`, 400);
                 }
                 throw error;
             }
@@ -59,23 +59,23 @@ exports.categoryService = {
     // update category by ID
     updateCategoryService(id, data) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findById = yield _config_1.prisma.category.findUnique({ where: { id } });
+            const findById = yield config_1.prisma.category.findUnique({ where: { id } });
             if (!findById) {
-                throw new _utils_1.sendError("Category not found", 404);
+                throw new utils_1.sendError("Category not found", 404);
             }
             // validatsiyani hammasini optional qilish update uchun
-            const categoryUpdateSchema = _validations_1.categorySchema.partial();
+            const categoryUpdateSchema = validations_1.categorySchema.partial();
             try {
                 // kelgan datani validatsiya qilish
                 const validatedData = categoryUpdateSchema.parse(data);
-                return _config_1.prisma.category.update({ where: { id }, data: validatedData });
+                return config_1.prisma.category.update({ where: { id }, data: validatedData });
             }
             catch (error) {
                 if (error instanceof zod_1.ZodError) {
                     const validationError = error.errors
                         .map((error) => error.message)
                         .join(", ");
-                    throw new _utils_1.sendError(`Validation Error ${validationError}`, 400);
+                    throw new utils_1.sendError(`Validation Error ${validationError}`, 400);
                 }
                 throw error;
             }
@@ -84,12 +84,12 @@ exports.categoryService = {
     // delete category by ID
     deleteCategoryService(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            const findById = yield _config_1.prisma.category.findUnique({ where: { id } });
+            const findById = yield config_1.prisma.category.findUnique({ where: { id } });
             if (!findById) {
-                throw new _utils_1.sendError("Category not found", 404);
+                throw new utils_1.sendError("Category not found", 404);
             }
             else {
-                yield _config_1.prisma.category.delete({ where: { id } });
+                yield config_1.prisma.category.delete({ where: { id } });
             }
         });
     },

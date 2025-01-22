@@ -1,6 +1,6 @@
 import multer from "multer";
 import * as fs from "node:fs";
-import { sendError } from "@utils";
+import { sendError } from "../utils";
 
 const avatarDir = "uploads/avatars/";
 
@@ -15,11 +15,7 @@ const fileFilter = (
   cb: multer.FileFilterCallback
 ) => {
   console.log("File Mimetype:", file.mimetype); // Fayl mimetype'ini tekshirish
-  const allowedMimeTypes = [
-    "image/jpeg",
-    "image/png",
-    "image/webp",
-  ];
+  const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
 
   if (!allowedMimeTypes.includes(file.mimetype)) {
     const error = new sendError("File type not allowed", 403);

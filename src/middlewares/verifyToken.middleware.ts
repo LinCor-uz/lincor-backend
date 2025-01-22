@@ -1,4 +1,4 @@
-import { verify } from "@utils";
+import { verify } from "../utils";
 import { NextFunction, Request, Response } from "express";
 
 declare global {

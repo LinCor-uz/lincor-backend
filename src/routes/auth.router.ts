@@ -1,10 +1,10 @@
-import { authController } from "@controllers";
+import { authController } from "../controller";
 import {
   checkAccessToken,
   sessionMiddleware,
   uploadAvatar,
   verifyRefreshToken,
-} from "@middlewares";
+} from "../middlewares";
 import { Router } from "express";
 
 export const authRouter = Router();

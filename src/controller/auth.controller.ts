@@ -1,6 +1,6 @@
-import { prisma } from "@config";
-import { authService } from "@services";
-import { generateAccessToken, generateRefreshToken, verify } from "@utils";
+import { authService } from "../services";
+import { prisma } from "../config";
+import { generateAccessToken, generateRefreshToken, verify } from "../utils";
 import { Request, Response } from "express";
 import Redis from "ioredis";
 

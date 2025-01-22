@@ -39,7 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadAvatar = void 0;
 const multer_1 = __importDefault(require("multer"));
 const fs = __importStar(require("node:fs"));
-const _utils_1 = require("@utils");
+const utils_1 = require("../utils");
 const avatarDir = "uploads/avatars/";
 if (!fs.existsSync(avatarDir)) {
     fs.mkdirSync(avatarDir, { recursive: true });
@@ -47,13 +47,9 @@ if (!fs.existsSync(avatarDir)) {
 // Fayl filtrini aniqlash
 const fileFilter = (req, file, cb) => {
     console.log("File Mimetype:", file.mimetype); // Fayl mimetype'ini tekshirish
-    const allowedMimeTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp",
-    ];
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
     if (!allowedMimeTypes.includes(file.mimetype)) {
-        const error = new _utils_1.sendError("File type not allowed", 403);
+        const error = new utils_1.sendError("File type not allowed", 403);
         return cb(error, false);
     }
     cb(null, true); // Faylni ruxsat etilganini ko'rsatish

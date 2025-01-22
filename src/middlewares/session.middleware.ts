@@ -1,4 +1,4 @@
-import { getEnvVariable, verify } from "@utils";
+import { getEnvVariable, verify } from "../utils";
 import { NextFunction, Request, Response } from "express";
 import Redis from "ioredis";
 

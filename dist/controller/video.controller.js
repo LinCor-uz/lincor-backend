@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.videoController = void 0;
-const _services_1 = require("@services");
+const services_1 = require("../services");
 exports.videoController = {
     // create video
     createVideo: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -19,7 +19,7 @@ exports.videoController = {
             req.body.categoryId = Number(req.body.categoryId);
             console.log(req.file);
             const data = Object.assign(Object.assign({}, req.body), { video_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.path });
-            const result = yield _services_1.videoService.createVideo(data);
+            const result = yield services_1.videoService.createVideo(data);
             res.status(201).send({
                 success: true,
                 data: result,
@@ -37,7 +37,7 @@ exports.videoController = {
     deleteVideo: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const id = Number(req.params.id);
-            yield _services_1.videoService.deleteVideo(id);
+            yield services_1.videoService.deleteVideo(id);
             res
                 .status(200)
                 .send({ success: true, message: "Video deleted successfully" });
@@ -52,7 +52,7 @@ exports.videoController = {
     // get all videos
     findAllVideos: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
-            const data = yield _services_1.videoService.getAllVideos();
+            const data = yield services_1.videoService.getAllVideos();
             res.status(200).send({
                 success: true,
                 data,
@@ -72,7 +72,7 @@ exports.videoController = {
         try {
             const id = Number(req.params.id);
             const data = Object.assign(Object.assign({}, req.body), { video_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.path });
-            const result = yield _services_1.videoService.updateVideo(id, data);
+            const result = yield services_1.videoService.updateVideo(id, data);
             res.status(200).send({ success: true, data: result });
         }
         catch (error) {

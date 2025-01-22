@@ -13,16 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
-const _config_1 = require("@config");
-const _services_1 = require("@services");
-const _utils_1 = require("@utils");
+const services_1 = require("../services");
+const config_1 = require("../config");
+const utils_1 = require("../utils");
 const ioredis_1 = __importDefault(require("ioredis"));
 const redis = new ioredis_1.default();
 exports.authController = {
     login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             const date = req.body;
-            let { refreshToken, accessToken, user } = yield _services_1.authService.login(date);
+            let { refreshToken, accessToken, user } = yield services_1.authService.login(date);
             res.cookie("refreshToken", refreshToken, { httpOnly: true });
             yield redis.set(`user:${user.id}`, accessToken);
             res.send({ accessToken });
@@ -36,13 +36,13 @@ exports.authController = {
     register: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         try {
             let data = Object.assign(Object.assign({}, req.body), { refreshToken: null });
-            let newUser = yield _services_1.authService.register(data, req.file);
+            let newUser = yield services_1.authService.register(data, req.file);
             console.log(newUser);
-            const accessToken = (0, _utils_1.generateAccessToken)({
+            const accessToken = (0, utils_1.generateAccessToken)({
                 id: newUser.id,
                 phone: newUser.phone,
             });
-            const refreshToken = yield (0, _utils_1.generateRefreshToken)(newUser);
+            const refreshToken = yield (0, utils_1.generateRefreshToken)(newUser);
             res.cookie("accessToken", accessToken, { httpOnly: false });
             res.cookie("refreshToken", refreshToken, { httpOnly: false });
             res.status(201).send({
@@ -70,7 +70,7 @@ exports.authController = {
         }
         try {
             // Verify if the refresh token exists in the database
-            const user = yield _config_1.prisma.user.findFirst({ where: { refreshToken } });
+            const user = yield config_1.prisma.user.findFirst({ where: { refreshToken } });
             if (!user) {
                 res.status(403).json({
                     success: false,
@@ -78,7 +78,7 @@ exports.authController = {
                 });
                 return;
             }
-            const { payload, expired } = (0, _utils_1.verify)(refreshToken);
+            const { payload, expired } = (0, utils_1.verify)(refreshToken);
             if (expired || !payload) {
                 res.status(401).json({
                     success: false,
@@ -86,7 +86,7 @@ exports.authController = {
                 });
                 return;
             }
-            const accessToken = (0, _utils_1.generateAccessToken)(user);
+            const accessToken = (0, utils_1.generateAccessToken)(user);
             res.status(200).json({
                 success: true,
                 token: accessToken,
@@ -104,9 +104,9 @@ exports.authController = {
         try {
             const { refreshToken } = req.cookies;
             if (refreshToken) {
-                const user = yield _config_1.prisma.user.findFirst({ where: { refreshToken } });
+                const user = yield config_1.prisma.user.findFirst({ where: { refreshToken } });
                 if (user) {
-                    yield _config_1.prisma.user.update({
+                    yield config_1.prisma.user.update({
                         where: { id: user.id },
                         data: { refreshToken: " " },
                     });
