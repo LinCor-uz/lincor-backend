@@ -25,7 +25,11 @@ console.log(`http://localhost:${PORT}/api/v1/video/  -- Video ./router`);
 console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth ./router`);
 
 // core settings
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 app.use("/*", (req, res) => {
   res.status(404).send("Page Not Found");
