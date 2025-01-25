@@ -21,6 +21,17 @@ app.use(
 );
 app.options("*", cors());
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:5174"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app
   .use("/api/v1/category", categoryRouter)
   .use("/api/v1/video", videoRouter)
