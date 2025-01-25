@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "shivkumarscript": "ts-node -T -P server/tsconfig.json src/server.ts",
-    "dev": "ts-node -r tsconfig-paths/register ./src/server.ts",
+    "start": "ts-node -r tsconfig-paths/register ./src/server.ts",
+    "dev": "nodemon",
     "build": "tsc",
     "prisma-migrate": "npx prisma migrate dev --name prisma && npx prisma generate"
   },
