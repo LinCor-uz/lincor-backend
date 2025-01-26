@@ -18,3 +18,4 @@ __exportStar(require("./category.service"), exports);
 __exportStar(require("./video.service"), exports);
 __exportStar(require("./user.service"), exports);
 __exportStar(require("./auth.service"), exports);
+__exportStar(require("./stream-video.service"), exports);

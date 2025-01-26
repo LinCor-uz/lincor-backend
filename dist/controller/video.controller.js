@@ -83,4 +83,25 @@ exports.videoController = {
                 .send({ success: false, error: err.message });
         }
     }),
+    getVideo: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const { filename } = req.params;
+        const range = req.headers.range;
+        if (!filename) {
+            res.status(400).send("No video specified");
+            return;
+        }
+        if (!range) {
+            res.status(400).send("Requires Range header");
+            return;
+        }
+        try {
+            (0, services_1.playVideo)(filename, range, res);
+        }
+        catch (error) {
+            const err = error;
+            res
+                .status(err.statusCode || 500)
+                .send({ success: false, error: err.message });
+        }
+    }),
 };

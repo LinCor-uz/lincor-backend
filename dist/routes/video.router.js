@@ -9,4 +9,5 @@ exports.videoRouter
     .post("/", middlewares_1.uploadVideo.single("video"), controller_1.videoController.createVideo)
     .delete("/:id", middlewares_1.isValidId, controller_1.videoController.deleteVideo)
     .get("/", controller_1.videoController.findAllVideos)
-    .put("/:id", middlewares_1.isValidId, middlewares_1.uploadVideo.single("video"), controller_1.videoController.updateVideo);
+    .put("/:id", middlewares_1.isValidId, middlewares_1.uploadVideo.single("video"), controller_1.videoController.updateVideo)
+    .get("/:filename", controller_1.videoController.getVideo);
