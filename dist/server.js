@@ -14,6 +14,11 @@ app.use(express_1.default.json({ limit: "125Mb" }));
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)((0, utils_1.getEnvVariable)("COOKIE_SECRET") || ""));
 // base routes
+app.use((0, cors_1.default)({
+    origin: "http://localhost:5173",
+    credentials: true,
+}));
+app.options("*", (0, cors_1.default)());
 app
     .use("/api/v1/category", routes_1.categoryRouter)
     .use("/api/v1/video", routes_1.videoRouter)
@@ -23,8 +28,6 @@ console.log("Base URi's");
 console.log(`http://localhost:${PORT}/api/v1/category/  -- Category ./router`);
 console.log(`http://localhost:${PORT}/api/v1/video/  -- Video ./router`);
 console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth ./router`);
-// core settings
-app.use((0, cors_1.default)());
 app.use("/*", (req, res) => {
     res.status(404).send("Page Not Found");
 });
