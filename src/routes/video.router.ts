@@ -13,4 +13,5 @@ videoRouter
     isValidId,
     uploadVideo.single("video"),
     videoController.updateVideo
-  );
+  )
+  .get("/:filename", videoController.getVideo);

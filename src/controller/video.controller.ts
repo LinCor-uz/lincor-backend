@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { videoService } from "../services";
+import { playVideo, videoService } from "../services";
 import { sendError } from "../utils";
 
 export const videoController = {
@@ -79,6 +79,30 @@ export const videoController = {
     } catch (error: unknown) {
       const err = error as sendError;
       console.log("#ERROR updateCategory - ", err);
+      res
+        .status(err.statusCode || 500)
+        .send({ success: false, error: err.message });
+    }
+  },
+
+  getVideo: async (req: Request, res: Response) => {
+    const { filename } = req.params;
+    const range = req.headers.range;
+
+    if (!filename) {
+      res.status(400).send("No video specified");
+      return;
+    }
+
+    if (!range) {
+      res.status(400).send("Requires Range header");
+      return;
+    }
+
+    try {
+      playVideo(filename, range, res);
+    } catch (error: unknown) {
+      const err = error as sendError;
       res
         .status(err.statusCode || 500)
         .send({ success: false, error: err.message });
