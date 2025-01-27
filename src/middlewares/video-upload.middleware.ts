@@ -4,7 +4,7 @@ import { sendError } from "../utils";
 import path from "node:path";
 
 // Video fayllar uchun direktoriyani aniqlash
-const videoDir = path.join(__dirname, "../../uploads/videos");
+const videoDir = path.join(__dirname, "../../uploads/video");
 
 if (!fs.existsSync(videoDir)) {
   fs.mkdirSync(videoDir, { recursive: true });
