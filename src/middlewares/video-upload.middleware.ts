@@ -1,9 +1,10 @@
 import multer from "multer";
 import * as fs from "node:fs";
 import { sendError } from "../utils";
+import path from "node:path";
 
 // Video fayllar uchun direktoriyani aniqlash
-const videoDir = "uploads/video/";
+const videoDir = path.join(__dirname, "../../uploads/videos");
 
 if (!fs.existsSync(videoDir)) {
   fs.mkdirSync(videoDir, { recursive: true });
