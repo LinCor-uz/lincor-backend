@@ -6,7 +6,6 @@ const SECRET_KEY: any =
 
 export const sign = (payload: any, expiresIn: string) => {
   const token = jwt.sign(payload, SECRET_KEY!, {
-    algorithm: "HS256",
     expiresIn,
   });
 
