@@ -5,10 +5,10 @@ import { string } from "zod";
 const SECRET_KEY: any =
   getEnvVariable("SECRET_KEY") || "default2_secret32_12#23__key";
 
-export const sign = (payload: object, expiresIn: string | number) => {
+export const sign = (payload: object, expiresIn: number) => {
   const options: SignOptions = {
     algorithm: "HS256",
-    expiresIn: expiresIn as string,
+    expiresIn: expiresIn,
   };
 
   return jwt.sign(payload, SECRET_KEY, options);
