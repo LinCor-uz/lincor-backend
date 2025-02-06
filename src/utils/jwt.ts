@@ -1,5 +1,6 @@
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { getEnvVariable } from "../utils";
+import { string } from "zod";
 
 const SECRET_KEY: any =
   getEnvVariable("SECRET_KEY") || "default2_secret32_12#23__key";
@@ -7,7 +8,7 @@ const SECRET_KEY: any =
 export const sign = (payload: object, expiresIn: string | number) => {
   const options: SignOptions = {
     algorithm: "HS256",
-    expiresIn,
+    expiresIn: expiresIn as string,
   };
 
   return jwt.sign(payload, SECRET_KEY, options);
