@@ -4,14 +4,14 @@ import { getEnvVariable } from "../utils";
 const SECRET_KEY: any =
   getEnvVariable("SECRET_KEY") || "default2_secret32_12#23__key";
 
-  export const sign = (payload: object, expiresIn: string | number = "1h") => {
-    const options: SignOptions = {
-      algorithm: "HS256",
-      expiresIn: expiresIn as string | number,  // `expiresIn` ni `StringValue` yoki `number` tipiga o'zgartirish
-    };
-  
-    return jwt.sign(payload, SECRET_KEY, options);
+export const sign = (payload: object, expiresIn: string | number) => {
+  const options: SignOptions = {
+    algorithm: "HS256",
+    expiresIn,
   };
+
+  return jwt.sign(payload, SECRET_KEY, options);
+};
 
 export const verify = (
   token: string
