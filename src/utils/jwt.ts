@@ -1,8 +1,7 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
 import { getEnvVariable } from "../utils";
 
-const SECRET_KEY: string | null =
-  getEnvVariable("SECRET_KEY") || "default_secret_key";
+const SECRET_KEY: string = getEnvVariable("SECRET_KEY") || "default_secret_key";
 
 export const sign = (payload: any, expiresIn: string | number) => {
   const token = jwt.sign(payload, SECRET_KEY, {
