@@ -4,10 +4,11 @@ import { getEnvVariable } from "../utils";
 const SECRET_KEY: any =
   getEnvVariable("SECRET_KEY") || "default2_secret32_12#23__key";
 
-export const sign = (payload: object, expiresIn: number | string) => {
+// expiresIn parametrini string yoki number deb belgilash mumkin.
+export const sign = (payload: object, expiresIn: string | number = "1h") => {
   const options: SignOptions = {
     algorithm: "HS256",
-    expiresIn: expiresIn,
+    expiresIn: expiresIn as string | number, // expiresIn ni string yoki number sifatida aniqlash
   };
 
   return jwt.sign(payload, SECRET_KEY, options);
