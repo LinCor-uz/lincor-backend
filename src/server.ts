@@ -1,5 +1,4 @@
 import express from "express";
-import { Router } from "express";
 import { authRouter, categoryRouter, userRouter, videoRouter } from "./routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -15,7 +14,7 @@ app.use(cookieParser(getEnvVariable("COOKIE_SECRET") || ""));
 // base routes
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true,
   })
 );
@@ -28,11 +27,9 @@ app
   .use("/api/v1/user", userRouter)
   .use("/api/v1/auth", authRouter);
 
-console.log("Base URi's");
-
-console.log(`http://localhost:${PORT}/api/v1/category/  -- Category ./router`);
-console.log(`http://localhost:${PORT}/api/v1/video/  -- Video ./router`);
-console.log(`http://localhost:${PORT}/api/v1/auth/  -- Auth ./router`);
+app.use("/", (req, res) => {
+  res.send("API WORKING !!!");
+});
 
 app.use("/*", (req, res) => {
   res.status(404).send("Page Not Found");
