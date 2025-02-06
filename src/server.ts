@@ -22,10 +22,10 @@ app.use(
 app.options("*", cors());
 
 app
-  .use("/api/v1/category", categoryRouter)
-  .use("/api/v1/video", videoRouter)
-  .use("/api/v1/user", userRouter)
-  .use("/api/v1/auth", authRouter);
+  .use("/category", categoryRouter)
+  .use("/video", videoRouter)
+  .use("/user", userRouter)
+  .use("/auth", authRouter);
 
 app.use("/", (req, res) => {
   res.send("API WORKING !!!");
