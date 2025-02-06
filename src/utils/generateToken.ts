@@ -1,4 +1,3 @@
-
 import { getEnvVariable } from "./dotenv";
 import { prisma } from "../config";
 import { sign } from "./jwt";
