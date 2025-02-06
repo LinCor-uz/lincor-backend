@@ -1,5 +1,5 @@
-import jwt, { JwtPayload, SignOptions } from "jsonwebtoken";
 import { getEnvVariable } from "../utils";
+import jwt, { JwtPayload } from "jsonwebtoken";
 
 const SECRET_KEY: any =
   getEnvVariable("SECRET_KEY") || "default2_secret32_12#23__key";
