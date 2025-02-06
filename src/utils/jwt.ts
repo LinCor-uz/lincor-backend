@@ -7,7 +7,7 @@ const SECRET_KEY: any =
 // expiresIn parametrini string yoki number deb belgilash mumkin.
 export const sign = (payload: object, expiresIn: string | number) => {
   const token = jwt.sign(payload, SECRET_KEY, {
-    algorithm: "RS256",
+    algorithm: "HS256", // RS256 ishlatish uchun xususiy kalit kerak
     expiresIn: expiresIn,
   });
 
