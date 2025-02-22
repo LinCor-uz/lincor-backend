@@ -2,10 +2,12 @@ import express from "express";
 import { authRouter, categoryRouter, userRouter, videoRouter } from "./routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import { getEnvVariable } from "././utils";
+import { getEnvVariable } from "./utils";
 
 const app = express();
-const PORT = getEnvVariable("SERVER_PORT") || "8000";
+const PORT = getEnvVariable("SERVER_PORT") || 8000;
+
+app.use(express.static("uploads"));
 
 app.use(express.json({ limit: "125Mb" }));
 app.use(express.urlencoded({ extended: true }));
@@ -27,12 +29,12 @@ app
   .use("/user", userRouter)
   .use("/auth", authRouter);
 
-app.use("/", (req, res) => {
-  res.send("API WORKING !!!");
+app.use("/*", (_, res) => {
+  res.status(404).send("Page Not Found");
 });
 
-app.use("/*", (req, res) => {
-  res.status(404).send("Page Not Found");
+app.use("/", (_, res) => {
+  res.send("Welcome to LinCor.uz API server 🚀");
 });
 
 app.listen(PORT, () => {
