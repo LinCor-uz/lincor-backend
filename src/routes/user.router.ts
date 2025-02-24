@@ -11,4 +11,5 @@ userRouter
     checkAccessToken,
     uploadAvatar.single("avatar"),
     userController.profile
-  );
+  )
+  .get("/all", userController.getAll);
