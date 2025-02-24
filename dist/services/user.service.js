@@ -34,6 +34,23 @@ exports.userService = {
             }
         });
     },
+    getAllUser() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const users = yield config_1.prisma.user.findMany({
+                    include: { profile: true },
+                });
+                return users;
+            }
+            catch (err) {
+                if (err instanceof zod_1.ZodError) {
+                    const validationError = err.errors.map((e) => e.message).join(", ");
+                    throw new utils_1.sendError(`Validation Error: ${validationError}`, 400);
+                }
+                throw err;
+            }
+        });
+    },
     editProfile(data, user) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c, _d, _e, _f;

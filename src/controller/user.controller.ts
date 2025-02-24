@@ -37,4 +37,21 @@ export const userController = {
         .send({ success: false, error: err.message });
     }
   },
+
+  getAll: async (req: Request, res: Response) => {
+    try {
+      const users = await userService.getAllUser();
+
+      res.status(200).send({
+        success: true,
+        data: users,
+      });
+    } catch (error: unknown) {
+      const err = error as sendError;
+      console.log("###ERROR in create USER- ", err.message);
+      res
+        .status(err.statusCode || 500)
+        .send({ success: false, error: err.message });
+    }
+  },
 };

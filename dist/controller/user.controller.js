@@ -45,4 +45,20 @@ exports.userController = {
                 .send({ success: false, error: err.message });
         }
     }),
+    getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const users = yield services_1.userService.getAllUser();
+            res.status(200).send({
+                success: true,
+                data: users,
+            });
+        }
+        catch (error) {
+            const err = error;
+            console.log("###ERROR in create USER- ", err.message);
+            res
+                .status(err.statusCode || 500)
+                .send({ success: false, error: err.message });
+        }
+    }),
 };

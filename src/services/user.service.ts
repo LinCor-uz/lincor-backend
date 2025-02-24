@@ -42,6 +42,22 @@ export const userService = {
     }
   },
 
+  async getAllUser() {
+    try {
+      const users = await prisma.user.findMany({
+        include: { profile: true },
+      });
+
+      return users;
+    } catch (err) {
+      if (err instanceof ZodError) {
+        const validationError = err.errors.map((e) => e.message).join(", ");
+        throw new sendError(`Validation Error: ${validationError}`, 400);
+      }
+      throw err;
+    }
+  },
+
   async editProfile(data: IProfile, user: IUser) {
     try {
       // Eski foydalanuvchi ma'lumotlarini olish
