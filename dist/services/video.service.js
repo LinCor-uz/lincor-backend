@@ -19,7 +19,7 @@ exports.videoService = {
     createVideo(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log(data);
+                console.log("Video service data: ", data);
                 const validateData = validations_1.videoSchema.parse(data);
                 return yield config_1.prisma.video.create({ data: validateData });
             }

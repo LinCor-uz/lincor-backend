@@ -38,30 +38,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uploadVideo = void 0;
 const multer_1 = __importDefault(require("multer"));
-const fs = __importStar(require("node:fs"));
-const utils_1 = require("../utils");
-const node_path_1 = __importDefault(require("node:path"));
-// Video fayllar uchun direktoriyani aniqlash
-const videoDir = node_path_1.default.join(__dirname, "../../uploads/video");
+const fs = __importStar(require("fs"));
+const path_1 = __importDefault(require("path"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config(); // 📌 `.env` faylni yuklash
+const videoDir = path_1.default.join(__dirname, "../../uploads/video");
+// ✅ **Agar direktoriy yo‘q bo‘lsa, yaratish**
 if (!fs.existsSync(videoDir)) {
     fs.mkdirSync(videoDir, { recursive: true });
 }
-// Fayl filtrini aniqlash
+// ✅ **Ruxsat berilgan fayl turlari**
+const allowedMimeTypes = ["video/mp4", "video/webm", "video/x-msvideo", "video/x-matroska"];
+// ✅ **Fayl filtrini o‘rnatish**
 const fileFilter = (req, file, cb) => {
-    console.log("File Mimetype:", file.mimetype); // Fayl mimetype'ini tekshirish
-    const allowedMimeTypes = [
-        "video/mp4",
-        "video/webm",
-        "video/x-msvideo",
-        "video/x-matroska",
-    ];
+    console.log("📂 Fayl yuklanmoqda:", file.originalname);
     if (!allowedMimeTypes.includes(file.mimetype)) {
-        const error2 = new utils_1.sendError("File type not allowed", 403);
-        return cb(error2, false);
+        return cb(Error, false);
     }
-    cb(null, true); // Faylni ruxsat etilganini ko'rsatish
+    cb(null, true);
 };
-// Fayl saqlash va nomlash
+// ✅ **Faylni saqlash va nomlash**
 const storage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
         cb(null, videoDir);
@@ -71,8 +67,5 @@ const storage = multer_1.default.diskStorage({
         cb(null, uniqueName);
     },
 });
-// Multer ni eksport qilish
-exports.uploadVideo = (0, multer_1.default)({
-    storage,
-    fileFilter, // Faylni filtrlash
-});
+// ✅ **Multer middleware'ni eksport qilish**
+exports.uploadVideo = (0, multer_1.default)({ storage, fileFilter });

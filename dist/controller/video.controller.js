@@ -17,7 +17,7 @@ exports.videoController = {
         var _a;
         try {
             req.body.categoryId = Number(req.body.categoryId);
-            console.log(req.file);
+            console.log("VIdeo  controller req,file: ", req.file);
             const data = Object.assign(Object.assign({}, req.body), { video_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.path });
             const result = yield services_1.videoService.createVideo(data);
             res.status(201).send({
@@ -71,7 +71,7 @@ exports.videoController = {
         var _a;
         try {
             const id = Number(req.params.id);
-            const data = Object.assign(Object.assign({}, req.body), { video_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.path });
+            const data = Object.assign(Object.assign({}, req.body), { video_path: (_a = req.file) === null || _a === void 0 ? void 0 : _a.filename });
             const result = yield services_1.videoService.updateVideo(id, data);
             res.status(200).send({ success: true, data: result });
         }
@@ -85,23 +85,18 @@ exports.videoController = {
     }),
     getVideo: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { filename } = req.params;
-        const range = req.headers.range;
+        const range = req.headers.range; // ✅ to'g'ri olinishi kerak
         if (!filename) {
-            res.status(400).send("No video specified");
-            return;
+            return res.status(400).json({ error: "No video specified" });
         }
         if (!range) {
-            res.status(400).send("Requires Range header");
-            return;
+            return res.status(400).json({ error: "Requires Range header" });
         }
         try {
-            (0, services_1.playVideo)(filename, range, res);
+            (0, services_1.streamVideo)(req, res); // ✅ `req` va `res` ni jo‘natamiz
         }
         catch (error) {
-            const err = error;
-            res
-                .status(err.statusCode || 500)
-                .send({ success: false, error: err.message });
+            res.status(500).json({ success: false, error: "Internal Server Error" });
         }
     }),
 };
