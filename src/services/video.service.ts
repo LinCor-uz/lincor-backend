@@ -7,7 +7,7 @@ export const videoService = {
   // create video service
   async createVideo(data: unknown): Promise<Video> {
     try {
-      console.log(data);
+      console.log("Video service data: ",data);
       const validateData = videoSchema.parse(data);
       return await prisma.video.create({ data: validateData });
     } catch (err) {

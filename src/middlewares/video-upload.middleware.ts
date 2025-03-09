@@ -1,38 +1,30 @@
 import multer from "multer";
-import * as fs from "node:fs";
-import { sendError } from "../utils";
-import path from "node:path";
+import * as fs from "fs";
+import path from "path";
+import dotenv from "dotenv";
 
-// Video fayllar uchun direktoriyani aniqlash
+dotenv.config(); // 📌 `.env` faylni yuklash
+
 const videoDir = path.join(__dirname, "../../uploads/video");
 
+// ✅ **Agar direktoriy yo‘q bo‘lsa, yaratish**
 if (!fs.existsSync(videoDir)) {
   fs.mkdirSync(videoDir, { recursive: true });
 }
 
-// Fayl filtrini aniqlash
-const fileFilter = (
-  req: any,
-  file: Express.Multer.File,
-  cb: multer.FileFilterCallback
-) => {
-  console.log("File Mimetype:", file.mimetype); // Fayl mimetype'ini tekshirish
-  const allowedMimeTypes = [
-    "video/mp4",
-    "video/webm",
-    "video/x-msvideo",
-    "video/x-matroska",
-  ];
+// ✅ **Ruxsat berilgan fayl turlari**
+const allowedMimeTypes = ["video/mp4", "video/webm", "video/x-msvideo", "video/x-matroska"];
 
+// ✅ **Fayl filtrini o‘rnatish**
+const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+  console.log("📂 Fayl yuklanmoqda:", file.originalname);
   if (!allowedMimeTypes.includes(file.mimetype)) {
-    const error2 = new sendError("File type not allowed", 403);
-    return cb(error2 as any, false);
+    return cb(Error as any, false);
   }
-
-  cb(null, true); // Faylni ruxsat etilganini ko'rsatish
+  cb(null, true);
 };
 
-// Fayl saqlash va nomlash
+// ✅ **Faylni saqlash va nomlash**
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, videoDir);
@@ -43,8 +35,5 @@ const storage = multer.diskStorage({
   },
 });
 
-// Multer ni eksport qilish
-export const uploadVideo = multer({
-  storage,
-  fileFilter, // Faylni filtrlash
-});
+// ✅ **Multer middleware'ni eksport qilish**
+export const uploadVideo = multer({ storage, fileFilter });

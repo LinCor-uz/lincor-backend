@@ -1,59 +1,46 @@
-import { log } from "console";
-import { Response } from "express";
+import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
-import { sendError } from "../utils";
 
 const videoDir = path.join(__dirname, "../../uploads/video");
 
-if (!videoDir) {
-  log("Creating video directory not found");
+if (!fs.existsSync(videoDir)) {
+  console.log("📂 Creating video directory...");
+  fs.mkdirSync(videoDir, { recursive: true });
 }
 
-type range = {
-  start: number;
-  end: number;
-};
+export const streamVideo = (req: Request, res: Response) => {
+  const { filename } = req.params;
+  const range = req.headers.range;
 
-export const playVideo = (
-  filename: string,
-  renge: range | any,
-  res: Response
-) => {
+  if (!range) {
+    return res.status(400).json({ error: "Range header required" });
+  }
+
   const videoPath = path.join(videoDir, filename);
 
-  if (fs.existsSync(videoPath)) {
-    new sendError("Video not found", 404);
-    return;
+  if (!fs.existsSync(videoPath)) {
+    return res.status(404).json({ error: "Video not found" });
   }
 
   const stat = fs.statSync(videoPath);
   const fileSize = stat.size;
-  const chunkSize = 1024 * 1024; // 1mb chunk size
+  // const chunkSize = 10 ** 6; // 1MB chunk size // 10kb chunk size for testing 
+  const chunkSize = 1024 * 1024; //  1MB chunk size
 
-  if (renge) {
-    const parts = renge.replace(/bytes=/, "").split("-");
-    const start = parseInt(parts[0], 10);
-    const end = Math.min(start + chunkSize, fileSize - 1);
+  const parts = range.replace(/bytes=/, "").split("-");
+  const start = parseInt(parts[0], 10);
+  const end = parts[1] ? parseInt(parts[1], 10) : Math.min(start + chunkSize, fileSize - 1);
 
-    const file = fs.createReadStream(videoPath, { start, end });
+  const file = fs.createReadStream(videoPath, { start, end });
 
-    const head = {
-      "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-      "Accept-Ranges": "bytes",
-      "Content-Length": end - start + 1,
-      "Content-Type": "video/mp4",
-    };
+  const head = {
+    "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+    "Accept-Ranges": "bytes",
+    "Content-Length": end - start + 1,
+    "Content-Type": "video/mp4",
+  };
 
-    res.writeHead(206, head);
-    file.pipe(res);
-  } else {
-    const head = {
-      "Content-Length": fileSize,
-      "Content-Type": "video/mp4",
-    };
-
-    res.writeHead(200, head);
-    fs.createReadStream(videoPath).pipe(res);
-  }
+  res.writeHead(206, head);
+  file.pipe(res);
 };

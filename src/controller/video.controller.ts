@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { playVideo, videoService } from "../services";
+import { streamVideo, videoService } from "../services";
 import { sendError } from "../utils";
 
 export const videoController = {
@@ -7,7 +7,7 @@ export const videoController = {
   createVideo: async (req: Request, res: Response) => {
     try {
       req.body.categoryId = Number(req.body.categoryId);
-      console.log(req.file);
+      console.log("VIdeo  controller req,file: ", req.file);
       const data = {
         ...req.body,
         video_path: req.file?.path,
@@ -70,7 +70,7 @@ export const videoController = {
 
       const data = {
         ...req.body,
-        video_path: req.file?.path,
+        video_path: req.file?.filename,
       };
 
       const result = await videoService.updateVideo(id, data);
@@ -87,25 +87,20 @@ export const videoController = {
 
   getVideo: async (req: Request, res: Response) => {
     const { filename } = req.params;
-    const range = req.headers.range;
+    const range = req.headers.range; // ✅ to'g'ri olinishi kerak
 
     if (!filename) {
-      res.status(400).send("No video specified");
-      return;
+      return res.status(400).json({ error: "No video specified" });
     }
 
     if (!range) {
-      res.status(400).send("Requires Range header");
-      return;
+      return res.status(400).json({ error: "Requires Range header" });
     }
 
     try {
-      playVideo(filename, range, res);
-    } catch (error: unknown) {
-      const err = error as sendError;
-      res
-        .status(err.statusCode || 500)
-        .send({ success: false, error: err.message });
+      streamVideo(req, res); // ✅ `req` va `res` ni jo‘natamiz
+    } catch (error) {
+      res.status(500).json({ success: false, error: "Internal Server Error" });
     }
   },
 };
