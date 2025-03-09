@@ -2,12 +2,15 @@ import { Video, videoSchema } from "../validations";
 import { prisma } from "../config";
 import { ZodError } from "zod";
 import { sendError } from "../utils";
+import path from "path";
+import { log } from "console";
+
 
 export const videoService = {
   // create video service
   async createVideo(data: unknown): Promise<Video> {
     try {
-      console.log("Video service data: ",data);
+      console.log("Video service data: ", data);
       const validateData = videoSchema.parse(data);
       return await prisma.video.create({ data: validateData });
     } catch (err) {
@@ -32,7 +35,15 @@ export const videoService = {
 
   //get all videos service
   async getAllVideos(): Promise<Video[]> {
-    return prisma.video.findMany({ include: { Category: true } });
+    const videos = await prisma.video.findMany({ include: { Category: true } });
+
+    const modifiedVideos = videos.map((video: any) => ({
+      ...video,
+      video_path: path.basename(video.video_path), // Faqat fayl nomini olamiz
+    }));
+
+    log("Modified videos: ", modifiedVideos);
+    return modifiedVideos
   },
 
   // update video by id

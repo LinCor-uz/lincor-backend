@@ -49,6 +49,7 @@ export const videoController = {
   findAllVideos: async (req: Request, res: Response) => {
     try {
       const data = await videoService.getAllVideos();
+      
 
       res.status(200).send({
         success: true,

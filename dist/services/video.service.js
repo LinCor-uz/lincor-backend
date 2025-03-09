@@ -8,12 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.videoService = void 0;
 const validations_1 = require("../validations");
 const config_1 = require("../config");
 const zod_1 = require("zod");
 const utils_1 = require("../utils");
+const path_1 = __importDefault(require("path"));
+const console_1 = require("console");
 exports.videoService = {
     // create video service
     createVideo(data) {
@@ -47,7 +52,10 @@ exports.videoService = {
     //get all videos service
     getAllVideos() {
         return __awaiter(this, void 0, void 0, function* () {
-            return config_1.prisma.video.findMany({ include: { Category: true } });
+            const videos = yield config_1.prisma.video.findMany({ include: { Category: true } });
+            const modifiedVideos = videos.map((video) => (Object.assign(Object.assign({}, video), { video_path: path_1.default.basename(video.video_path) })));
+            (0, console_1.log)("Modified videos: ", modifiedVideos);
+            return modifiedVideos;
         });
     },
     // update video by id
