@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import { authRouter, categoryRouter, userRouter, videoRouter } from "./routes";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -7,7 +8,7 @@ import { getEnvVariable } from "./utils";
 const app = express();
 const PORT = getEnvVariable("SERVER_PORT") || 8000;
 
-app.use(express.static("uploads"));
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(express.json({ limit: "125Mb" }));
 app.use(express.urlencoded({ extended: true }));
