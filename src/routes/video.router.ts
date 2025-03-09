@@ -14,4 +14,11 @@ videoRouter
     uploadVideo.single("video"),
     videoController.updateVideo
   )
-  .get("/:filename", videoController.getVideo);
+  .get("/:filename", async (req, res, next) => {
+    try {
+      await videoController.getVideo(req, res);
+    } catch (error) {
+      next(error);
+    }
+  });
+
