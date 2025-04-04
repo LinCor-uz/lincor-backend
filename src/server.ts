@@ -10,8 +10,8 @@ const PORT = getEnvVariable("SERVER_PORT") || 8000;
 
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
-app.use(express.json({ limit: "125Mb" }));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "2048Mb" }));
+app.use(express.urlencoded({ extended: true, limit: "2048Mb" }));
 app.use(cookieParser(getEnvVariable("COOKIE_SECRET") || ""));
 
 // base routes
