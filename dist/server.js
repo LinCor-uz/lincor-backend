@@ -12,8 +12,8 @@ const utils_1 = require("./utils");
 const app = (0, express_1.default)();
 const PORT = (0, utils_1.getEnvVariable)("SERVER_PORT") || 8000;
 app.use("/uploads", express_1.default.static(path_1.default.join(__dirname, "../uploads")));
-app.use(express_1.default.json({ limit: "125Mb" }));
-app.use(express_1.default.urlencoded({ extended: true }));
+app.use(express_1.default.json({ limit: "2048Mb" }));
+app.use(express_1.default.urlencoded({ extended: true, limit: "2048Mb" }));
 app.use((0, cookie_parser_1.default)((0, utils_1.getEnvVariable)("COOKIE_SECRET") || ""));
 // base routes
 app.use((0, cors_1.default)({
